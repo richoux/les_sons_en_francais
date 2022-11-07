@@ -1,4 +1,4 @@
-package com.example.lessonsenfrancais.ui.theme
+package fr.richoux.lessonsenfrancais.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -7,15 +7,19 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
+    primary = Purple500,
     primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = White,
+    background = Black,
+    surface = White
 )
 
 private val LightColorPalette = lightColors(
     primary = Purple500,
     primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = Black,
+    background = White,
+    surface = Black
 
     /* Other default colors to override
     background = Color.White,
@@ -28,20 +32,27 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
+fun SelectTheme(darkTheme: Boolean, content: @Composable () -> Unit) {
+    if (darkTheme)
+        MaterialTheme(
+            colors = DarkColorPalette,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    else
+        MaterialTheme(
+            colors = LightColorPalette,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+}
+
+@Composable
 fun LesSonsEnFrançaisTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
+    SelectTheme(darkTheme, content)
 }
