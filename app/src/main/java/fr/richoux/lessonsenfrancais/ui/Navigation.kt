@@ -1,13 +1,13 @@
-package com.example.lessonsenfrancais.ui
+package fr.richoux.lessonsenfrancais.ui
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.lessonsenfrancais.Screen
+import fr.richoux.lessonsenfrancais.Screen
 
 @Composable
-fun Navigation( appViewModel: AppViewModel ) {
+fun Navigation( appViewModel: AppViewModel) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) {

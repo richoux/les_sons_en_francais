@@ -1,4 +1,4 @@
-package com.example.lessonsenfrancais
+package fr.richoux.lessonsenfrancais
 
 import org.junit.Test
 

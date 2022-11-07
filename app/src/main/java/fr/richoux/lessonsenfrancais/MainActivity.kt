@@ -1,4 +1,4 @@
-package com.example.lessonsenfrancais
+package fr.richoux.lessonsenfrancais
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import com.example.lessonsenfrancais.ui.AppViewModel
-import com.example.lessonsenfrancais.ui.Navigation
-import com.example.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
+import fr.richoux.lessonsenfrancais.ui.AppViewModel
+import fr.richoux.lessonsenfrancais.ui.Navigation
+import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 
 class MainActivity : ComponentActivity() {
 

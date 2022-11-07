@@ -1,4 +1,4 @@
-package com.example.lessonsenfrancais.ui
+package fr.richoux.lessonsenfrancais.ui
 
 data class AppUIState(
     val indexSimple: Int = 0,

@@ -1,8 +1,8 @@
-package com.example.lessonsenfrancais.ui
+package fr.richoux.lessonsenfrancais.ui
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.example.lessonsenfrancais.R
+import fr.richoux.lessonsenfrancais.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

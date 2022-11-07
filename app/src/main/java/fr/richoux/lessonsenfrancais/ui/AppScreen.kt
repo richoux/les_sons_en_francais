@@ -1,11 +1,10 @@
-package com.example.lessonsenfrancais.ui
+package fr.richoux.lessonsenfrancais.ui
 
 import android.content.Context
 import android.media.MediaPlayer
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -19,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -29,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.lessonsenfrancais.R
-import com.example.lessonsenfrancais.Screen
-import com.example.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
+import fr.richoux.lessonsenfrancais.Screen
+import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
+import fr.richoux.lessonsenfrancais.R
 
 private const val TAG = "AppScreen"
 

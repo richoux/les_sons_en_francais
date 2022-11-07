@@ -1,4 +1,4 @@
-package com.example.lessonsenfrancais
+package fr.richoux.lessonsenfrancais
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

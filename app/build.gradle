@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.lessonsenfrancais'
+    namespace 'fr.richoux.lessonsenfrancais'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.lessonsenfrancais"
+        applicationId "fr.richoux.lessonsenfrancais"
         minSdk 21
         targetSdk 32
         versionCode 1

@@ -1,4 +1,4 @@
-package com.example.lessonsenfrancais.ui.theme
+package fr.richoux.lessonsenfrancais.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
