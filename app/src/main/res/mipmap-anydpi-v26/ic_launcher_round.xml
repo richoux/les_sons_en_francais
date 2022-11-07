@@ -3,12 +3,13 @@
 <!--    <background android:drawable="@drawable/ic_launcher_background" />-->
 <!--    <foreground android:drawable="@drawable/ic_launcher_foreground" />-->
     <background android:drawable="@drawable/background" />
+<!--    <foreground android:drawable="@drawable/icon" />-->
     <foreground>
         <inset
-            android:insetBottom="36dp"
-            android:insetLeft="36dp"
-            android:insetRight="36dp"
-            android:insetTop="36dp"
+            android:insetBottom="12dp"
+            android:insetLeft="12dp"
+            android:insetRight="12dp"
+            android:insetTop="12dp"
             android:drawable="@drawable/icon">
         </inset>
     </foreground>

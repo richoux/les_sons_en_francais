@@ -1,4 +1,6 @@
-Les Sons en  Français is an Android  app to learn sounds  in French. I
+# Les Sons en Français
+
+Les Sons en Français is an Android app to learn sounds in French. I
 made  it for  my daughter  which is  currently learning  to read,  but
 struggles to remember  what sound is making such  and such combination
 of letters.
