@@ -7,20 +7,28 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import kotlin.random.Random
+import kotlin.random.nextInt
 
-class AppViewModel(val context: Context) : ViewModel() {
+class AppViewModel(darkMode: Boolean = false) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppUIState())
     val uiState: StateFlow<AppUIState> = _uiState.asStateFlow()
 
-    val simpleSounds: Array<String> = context.getResources().getStringArray(R.array.simple)
-    val numberSimpleCards: Int = simpleSounds.size
-    val complexSounds: Array<String> = context.getResources().getStringArray(R.array.complex)
-    val numberComplexCards: Int = complexSounds.size
+//    val simpleSounds: Array<String> = context.getResources().getStringArray(R.array.simple)
+//    val numberSimpleCards: Int = simpleSounds.size
+//    val complexSounds: Array<String> = context.getResources().getStringArray(R.array.complex)
+//    val numberComplexCards: Int = complexSounds.size
 
-    fun updateCard(newIndex: Int) {
+    init {
+        _uiState.value = AppUIState(darkMode = darkMode)
+    }
+
+    fun updateCard(context: Context, newIndex: Int) {
         if (_uiState.value.selectCards == 1) {
-            val text: String = simpleSounds[newIndex]
+            val text: String = context.getResources().getStringArray(R.array.simple)[newIndex]
             _uiState.update { currentState ->
                 currentState.copy(
                     index = newIndex,
@@ -35,7 +43,7 @@ class AppViewModel(val context: Context) : ViewModel() {
             }
         }
         else if (_uiState.value.selectCards == 2) {
-            val text: String = complexSounds[newIndex]
+            val text: String = context.getResources().getStringArray(R.array.complex)[newIndex]
             _uiState.update { currentState ->
                 currentState.copy(
                     index = newIndex,
@@ -51,17 +59,19 @@ class AppViewModel(val context: Context) : ViewModel() {
         }
     }
 
-    fun changeCardType(selection: Int) {
+    fun changeCardType(context: Context, selection: Int) {
         var text: String = ""
         var index: Int = 0
+        val simpleSounds: Array<String> = context.getResources().getStringArray(R.array.simple)
+        val complexSounds: Array<String> = context.getResources().getStringArray(R.array.complex)
 
         if(selection == 1) {
             index = _uiState.value.indexSimple
-            text = simpleSounds[index]
+            text = context.getResources().getStringArray(R.array.simple)[index]
         }
         else if(selection == 2){
             index = _uiState.value.indexComplex
-            text = complexSounds[index]
+            text = context.getResources().getStringArray(R.array.complex)[index]
         }
 
         _uiState.update { currentState ->
@@ -78,43 +88,60 @@ class AppViewModel(val context: Context) : ViewModel() {
         }
     }
 
-    fun numberCards() : Int{
+    fun numberCards(context: Context) : Int{
         if(_uiState.value.selectCards == 1)
-            return numberSimpleCards
+            return context.getResources().getStringArray(R.array.simple).size
         else
-            return numberComplexCards
+            return context.getResources().getStringArray(R.array.complex).size
     }
 
-    fun previousCard() {
+    fun randomCard(context: Context) {
+        if(_uiState.value.random == null) {
+            val callDate = LocalDateTime.now()
+            val diffSeconds = ChronoUnit.SECONDS.between(_uiState.value.startDate, callDate)
+            _uiState.update { currentState ->
+                currentState.copy(
+                    random = Random(diffSeconds)
+                )
+            }
+        }
+        val numberCards: Int = numberCards(context)
+        var newIndex: Int = _uiState.value.random!!.nextInt(0, numberCards)
+        while(newIndex == _uiState.value.index)
+            newIndex = _uiState.value.random!!.nextInt(0, numberCards)
+        updateCard(context, newIndex)
+    }
+
+    fun previousCard(context: Context) {
         val newIndex: Int
-        val numberCards: Int = numberCards()
+        val numberCards: Int = numberCards(context)
 
         if (_uiState.value.index == 0)
             newIndex = numberCards - 1
         else
             newIndex = _uiState.value.index - 1
 
-        updateCard(newIndex)
+        updateCard(context, newIndex)
     }
 
-    fun nextCard() {
+    fun nextCard(context: Context) {
         val newIndex: Int
-        val numberCards: Int = numberCards()
+        val numberCards: Int = numberCards(context)
 
         if (_uiState.value.index == numberCards - 1)
             newIndex = 0
         else
             newIndex = _uiState.value.index + 1
 
-        updateCard(newIndex)
+        updateCard(context, newIndex)
     }
 
-    fun simpleCards(){
-        changeCardType(1)
+    fun simpleCards(context: Context) {
+        changeCardType(context,1)
     }
 
-    fun complexCards(){
-        changeCardType(2)
+    fun complexCards(context: Context) {
+        changeCardType(context, 2)
     }
 
     fun initDarkLightMode(darkMode: Boolean) {
@@ -123,6 +150,10 @@ class AppViewModel(val context: Context) : ViewModel() {
                 darkMode = darkMode
             )
         }
+    }
+
+    fun getLastRoute(): String {
+        return _uiState.value.lastRoute
     }
 
     fun mustSwichMode() {

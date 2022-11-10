@@ -1,20 +1,54 @@
 package fr.richoux.lessonsenfrancais.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import fr.richoux.lessonsenfrancais.Screen
+import fr.richoux.lessonsenfrancais.ui.screens.CardScreen
+import fr.richoux.lessonsenfrancais.ui.screens.Screens
+import fr.richoux.lessonsenfrancais.ui.screens.HomeScreen
 
 @Composable
-fun Navigation( appViewModel: AppViewModel) {
+fun Navigation(appViewModel: AppViewModel = viewModel()) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
-        composable(route = Screen.Home.route) {
-            Home(appViewModel = appViewModel, navController = navController)
+    val uiState by appViewModel.uiState.collectAsState()
+
+    NavHost(navController = navController, startDestination = appViewModel.getLastRoute()) {
+        composable(route = Screens.HomeScreen.route) {
+            HomeScreen(
+                onSimpleSelected = {
+                    appViewModel.simpleCards( it )
+                    navController.navigate(Screens.CardScreen.route)
+                },
+                onComplexSelected = {
+                    appViewModel.complexCards( it )
+                    navController.navigate(Screens.CardScreen.route)
+                },
+                onHomeClicked = {
+                    navController.navigate(Screens.HomeScreen.route)
+                }
+            )
         }
-        composable(route = Screen.CardScreen.route) {
-            CardScreen(appViewModel = appViewModel, navController = navController)
+        composable(route = Screens.CardScreen.route) {
+            CardScreen(
+                soundText = uiState.soundText,
+                soundID = uiState.soundID,
+                onPreviousClicked = {
+                    appViewModel.previousCard(it)
+                },
+                onNextClicked = {
+                    appViewModel.nextCard(it)
+                },
+                onRandomClicked = {
+                    appViewModel.randomCard(it)
+                },
+                onHomeClicked = {
+                    navController.navigate(Screens.HomeScreen.route)
+                }
+            )
         }
     }
 }
