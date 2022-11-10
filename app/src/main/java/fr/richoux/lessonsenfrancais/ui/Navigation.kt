@@ -26,6 +26,9 @@ fun Navigation(appViewModel: AppViewModel = viewModel()) {
                 onComplexSelected = {
                     appViewModel.complexCards( it )
                     navController.navigate(Screens.CardScreen.route)
+                },
+                onHomeClicked = {
+                    navController.navigate(Screens.HomeScreen.route)
                 }
             )
         }
@@ -38,6 +41,9 @@ fun Navigation(appViewModel: AppViewModel = viewModel()) {
                 },
                 onNextClicked = {
                     appViewModel.nextCard(it)
+                },
+                onRandomClicked = {
+                    appViewModel.randomCard(it)
                 },
                 onHomeClicked = {
                     navController.navigate(Screens.HomeScreen.route)

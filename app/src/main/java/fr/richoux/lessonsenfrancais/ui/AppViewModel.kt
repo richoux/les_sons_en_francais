@@ -7,7 +7,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import androidx.compose.ui.platform.LocalContext
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 class AppViewModel(darkMode: Boolean = false) : ViewModel() {
 
@@ -90,6 +93,23 @@ class AppViewModel(darkMode: Boolean = false) : ViewModel() {
             return context.getResources().getStringArray(R.array.simple).size
         else
             return context.getResources().getStringArray(R.array.complex).size
+    }
+
+    fun randomCard(context: Context) {
+        if(_uiState.value.random == null) {
+            val callDate = LocalDateTime.now()
+            val diffSeconds = ChronoUnit.SECONDS.between(_uiState.value.startDate, callDate)
+            _uiState.update { currentState ->
+                currentState.copy(
+                    random = Random(diffSeconds)
+                )
+            }
+        }
+        val numberCards: Int = numberCards(context)
+        var newIndex: Int = _uiState.value.random!!.nextInt(0, numberCards)
+        while(newIndex == _uiState.value.index)
+            newIndex = _uiState.value.random!!.nextInt(0, numberCards)
+        updateCard(context, newIndex)
     }
 
     fun previousCard(context: Context) {

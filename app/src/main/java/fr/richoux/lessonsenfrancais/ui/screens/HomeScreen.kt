@@ -3,11 +3,10 @@ package fr.richoux.lessonsenfrancais.ui.screens
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -15,61 +14,89 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fr.richoux.lessonsenfrancais.ui.DrawerMenu
+import fr.richoux.lessonsenfrancais.ui.TopBar
+import fr.richoux.lessonsenfrancais.ui.customShape
 import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
     onSimpleSelected: (context: Context) -> Unit = {},
-    onComplexSelected: (context: Context) -> Unit = {}
+    onComplexSelected: (context: Context) -> Unit = {},
+    onHomeClicked: () -> Unit = {}
 ){
     val context = LocalContext.current
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(20.dp),
-            border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-            onClick = {
-                onSimpleSelected(context)
-            },
-            colors = ButtonDefaults.textButtonColors(
-                backgroundColor = MaterialTheme.colors.background,
-                contentColor = MaterialTheme.colors.surface
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopBar(
+                onMenuClick = {
+                    scope.launch {
+                        scaffoldState.drawerState.open()
+                    }
+                }
             )
-        ) {
-            Text(
-                text = "Sons simples\n(a, po, bi, ...)",
-                color = MaterialTheme.colors.secondary,
-                fontSize = 36.sp,
-                textAlign = TextAlign.Center
-            )
-        }
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(20.dp),
-            border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-            onClick = {
-                onComplexSelected(context)
-            },
-            colors = ButtonDefaults.textButtonColors(
-                backgroundColor = MaterialTheme.colors.background,
-                contentColor = MaterialTheme.colors.surface
-            )
-        ) {
-            Text(
-                text = "Sons complexes\n(ou, en, ail, ...)",
-                color = MaterialTheme.colors.secondary,
-                fontSize = 36.sp,
-                textAlign = TextAlign.Center
-            )
-        }
+        },
+        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+        drawerContent = {
+            DrawerMenu(onHomeClicked)
+        },
+        drawerShape = customShape(),
+        content = {
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(20.dp),
+                    shape = CircleShape,
+                    contentPadding = PaddingValues(5.dp),
+                    border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
+                    onClick = {
+                        onSimpleSelected(context)
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        backgroundColor = MaterialTheme.colors.background,
+                        contentColor = MaterialTheme.colors.secondary
+                    )
+                ) {
+                    Text(
+                        text = "Sons simples\n(a, po, bi, ...)",
+                        color = MaterialTheme.colors.secondary,
+                        fontSize = 36.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(20.dp),
+                    shape = CircleShape,
+                    contentPadding = PaddingValues(5.dp),
+                    border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
+                    onClick = {
+                        onComplexSelected(context)
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        backgroundColor = MaterialTheme.colors.background,
+                        contentColor = MaterialTheme.colors.secondary
+                    )
+                ) {
+                    Text(
+                        text = "Sons complexes\n(ou, en, ail, ...)",
+                        color = MaterialTheme.colors.secondary,
+                        fontSize = 36.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
 
 //        Button(
 //            modifier = Modifier
@@ -112,7 +139,10 @@ fun HomeScreen(
 //            Log.d(TAG, "Select cards, select=${appUIState.selectCards}")
 //            AppScreen(appViewModel)
 //        }
-    }
+
+            }
+        }
+    )
 }
 
 @Preview(showBackground = true)
