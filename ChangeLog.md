@@ -1,6 +1,6 @@
 # ChangeLog
 
-## [1.1.0] - 2022-11-10
+## [1.1.1] - 2022-11-10
 - Drawable menu, going to the Home screen only so far,
 - New themes, a bit less ugly.
 - Random card button.
