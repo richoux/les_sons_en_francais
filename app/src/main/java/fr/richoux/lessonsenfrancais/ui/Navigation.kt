@@ -1,5 +1,7 @@
 package fr.richoux.lessonsenfrancais.ui
 
+import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -10,45 +12,69 @@ import androidx.navigation.compose.rememberNavController
 import fr.richoux.lessonsenfrancais.ui.screens.CardScreen
 import fr.richoux.lessonsenfrancais.ui.screens.Screens
 import fr.richoux.lessonsenfrancais.ui.screens.HomeScreen
+import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+private const val TAG = "Navigation"
 
 @Composable
-fun Navigation(appViewModel: AppViewModel = viewModel()) {
+fun Navigation(
+    preferences: SharedPreferences,
+    appViewModel: AppViewModel = AppViewModel(preferences)
+) {
     val navController = rememberNavController()
     val uiState by appViewModel.uiState.collectAsState()
+    val options by appViewModel.options.collectAsState()
 
     NavHost(navController = navController, startDestination = appViewModel.getLastRoute()) {
         composable(route = Screens.HomeScreen.route) {
-            HomeScreen(
-                onSimpleSelected = {
-                    appViewModel.simpleCards( it )
-                    navController.navigate(Screens.CardScreen.route)
-                },
-                onComplexSelected = {
-                    appViewModel.complexCards( it )
-                    navController.navigate(Screens.CardScreen.route)
-                },
-                onHomeClicked = {
-                    navController.navigate(Screens.HomeScreen.route)
-                }
-            )
+            LesSonsEnFrançaisTheme(
+                darkTheme = options.darkMode,
+                dyslexia = options.dyslexia
+            ) {
+                Log.d(TAG, "HomeScreen - index=${uiState.index}, startDate=${uiState.startDate}")
+
+                HomeScreen(
+                    appViewModel = appViewModel,
+                    onSimpleSelected = {
+                        appViewModel.simpleCards(it)
+                        navController.navigate(Screens.CardScreen.route)
+                    },
+                    onComplexSelected = {
+                        appViewModel.complexCards(it)
+                        navController.navigate(Screens.CardScreen.route)
+                    },
+                    onHomeClicked = {
+                        navController.navigate(Screens.HomeScreen.route)
+                    }
+                )
+            }
         }
         composable(route = Screens.CardScreen.route) {
-            CardScreen(
-                soundText = uiState.soundText,
-                soundID = uiState.soundID,
-                onPreviousClicked = {
-                    appViewModel.previousCard(it)
-                },
-                onNextClicked = {
-                    appViewModel.nextCard(it)
-                },
-                onRandomClicked = {
-                    appViewModel.randomCard(it)
-                },
-                onHomeClicked = {
-                    navController.navigate(Screens.HomeScreen.route)
-                }
-            )
+            LesSonsEnFrançaisTheme(
+                darkTheme = options.darkMode,
+                dyslexia = options.dyslexia
+            ) {
+                Log.d(TAG, "CardScreen - index=${uiState.index}, startDate=${uiState.startDate}")
+                CardScreen(
+                    appViewModel = appViewModel,
+                    soundText = uiState.soundText,
+                    soundID = uiState.soundID,
+                    onPreviousClicked = {
+                        appViewModel.previousCard(it)
+                    },
+                    onNextClicked = {
+                        appViewModel.nextCard(it)
+                    },
+                    onRandomClicked = {
+                        appViewModel.randomCard(it)
+                    },
+                    onHomeClicked = {
+                        navController.navigate(Screens.HomeScreen.route)
+                    }
+                )
+            }
         }
     }
 }

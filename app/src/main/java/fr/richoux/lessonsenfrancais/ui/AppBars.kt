@@ -10,6 +10,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -23,8 +26,10 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import fr.richoux.lessonsenfrancais.R
 import fr.richoux.lessonsenfrancais.ui.theme.BackgroundTwitter
+import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 
 fun customShape() =  object : Shape {
     override fun createOutline(
@@ -32,7 +37,7 @@ fun customShape() =  object : Shape {
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        return Outline.Rectangle(Rect(0f,0f,400f /* width */, 150f /* height */))
+        return Outline.Rectangle(Rect(0f,0f,800f /* width */, 1000f /* height */))
     }
 }
 
@@ -40,7 +45,10 @@ data class MenuItem(
     val id: String,
     val title: String,
     val contentDescription: String,
-    val icon: ImageVector
+    val icon: ImageVector?,
+    val isSwitch: Boolean = false,
+    val onSwitchSwitched: (Boolean) -> Unit = {},
+    val switchValue: Boolean = false
 )
 
 @Composable
@@ -76,7 +84,7 @@ fun DrawerMenuShape(
         .background(MaterialTheme.colors.primaryVariant),
     itemTextStyle: TextStyle = TextStyle(
         fontSize = 18.sp,
-        color = BackgroundTwitter
+        color = BackgroundTwitter,
     ),
     onItemClick: (MenuItem) -> Unit
 ) {
@@ -87,14 +95,25 @@ fun DrawerMenuShape(
                     .clickable {
                         onItemClick(item)
                     }
-                    .padding(16.dp)
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = item.contentDescription,
-                    modifier = Modifier,
-                    tint = BackgroundTwitter
-                )
+                if(item.isSwitch) {
+                    Switch(
+                        checked = item.switchValue,
+                        onCheckedChange = { item.onSwitchSwitched(it) }
+                    )
+                }
+                else {
+                    item.icon?.let {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = item.contentDescription,
+                            modifier = Modifier,
+                            tint = BackgroundTwitter
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = item.title,
@@ -108,6 +127,7 @@ fun DrawerMenuShape(
 
 @Composable
 fun DrawerMenu(
+    appViewModel: AppViewModel,
     onHomeClicked: () -> Unit = {}
 ) {
     DrawerMenuShape(
@@ -118,12 +138,28 @@ fun DrawerMenu(
                 contentDescription = "Aller à l'écran-titre",
                 icon = Icons.Default.Home
             ),
-//                    MenuItem(
-//                        id = "settings",
-//                        title = "Options",
-//                        contentDescription = "Pour gérer les options",
-//                        icon = Icons.Default.Settings
-//                    )
+            MenuItem(
+                id = "darkMode",
+                title = "Thème sombre",
+                contentDescription = "Passe du thème clair au thème sombre",
+                icon = null,
+                isSwitch = true,
+                onSwitchSwitched = {
+                    appViewModel.updateDarkTheme(it)
+                },
+                switchValue = appViewModel.isDarkTheme()
+            ),
+            MenuItem(
+                id = "dyslexie",
+                title = "Police pour dyslexiques",
+                contentDescription = "Applique une police adaptée aux enfants dyslexiques",
+                icon = null,
+                isSwitch = true,
+                onSwitchSwitched = {
+                    appViewModel.updateDyslexia(it)
+                },
+                switchValue = appViewModel.isDyslexia()
+            )
         ),
         onItemClick = {
             onHomeClicked()

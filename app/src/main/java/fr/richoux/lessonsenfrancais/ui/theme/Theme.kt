@@ -34,27 +34,15 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun SelectTheme(darkTheme: Boolean, content: @Composable () -> Unit) {
-    if (darkTheme)
-        MaterialTheme(
-            colors = DarkColorPalette,
-            typography = Typography,
-            shapes = Shapes,
-            content = content
-        )
-    else
-        MaterialTheme(
-            colors = LightColorPalette,
-            typography = Typography,
-            shapes = Shapes,
-            content = content
-        )
-}
-
-@Composable
 fun LesSonsEnFrançaisTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    dyslexia: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    SelectTheme(darkTheme, content)
+    MaterialTheme(
+        colors = if(darkTheme) DarkColorPalette else LightColorPalette,
+        typography = if(dyslexia) TypographyDyslexia else Typography,
+        shapes = Shapes,
+        content = content
+    )
 }

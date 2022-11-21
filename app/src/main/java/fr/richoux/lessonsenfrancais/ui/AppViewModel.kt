@@ -1,6 +1,9 @@
 package fr.richoux.lessonsenfrancais.ui
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.lifecycle.ViewModel
 import fr.richoux.lessonsenfrancais.R
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,20 +13,23 @@ import kotlinx.coroutines.flow.update
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.random.Random
-import kotlin.random.nextInt
 
-class AppViewModel(darkMode: Boolean = false) : ViewModel() {
 
+class AppViewModel(preferences: SharedPreferences) : ViewModel() {
     private val _uiState = MutableStateFlow(AppUIState())
     val uiState: StateFlow<AppUIState> = _uiState.asStateFlow()
 
-//    val simpleSounds: Array<String> = context.getResources().getStringArray(R.array.simple)
-//    val numberSimpleCards: Int = simpleSounds.size
-//    val complexSounds: Array<String> = context.getResources().getStringArray(R.array.complex)
-//    val numberComplexCards: Int = complexSounds.size
+    private val _options = MutableStateFlow(OptionsData())
+    val options: StateFlow<OptionsData> = _options.asStateFlow()
+
+    private val _editor = preferences.edit()
 
     init {
-        _uiState.value = AppUIState(darkMode = darkMode)
+        _uiState.value = AppUIState()
+        _options.value = OptionsData(
+            dyslexia = preferences.getBoolean("dyslexia", false),
+            darkMode = preferences.getBoolean("darkMode", false)
+        )
     }
 
     fun updateCard(context: Context, newIndex: Int) {
@@ -145,7 +151,7 @@ class AppViewModel(darkMode: Boolean = false) : ViewModel() {
     }
 
     fun initDarkLightMode(darkMode: Boolean) {
-        _uiState.update { currentState ->
+        _options.update { currentState ->
             currentState.copy(
                 darkMode = darkMode
             )
@@ -156,20 +162,35 @@ class AppViewModel(darkMode: Boolean = false) : ViewModel() {
         return _uiState.value.lastRoute
     }
 
-    fun mustSwichMode() {
-        _uiState.update { currentState ->
+    fun isDarkTheme(): Boolean {
+        return _options.value.darkMode
+    }
+
+    fun updateDarkTheme(newValue: Boolean) {
+        _options.update { currentState ->
             currentState.copy(
-                mustSwitchMode = true
+                darkMode = newValue
             )
+        }
+        _editor.apply {
+            putBoolean("darkMode", newValue)
+            apply()
         }
     }
 
-    fun switchMode() {
-        _uiState.update { currentState ->
+    fun isDyslexia(): Boolean {
+        return _options.value.dyslexia
+    }
+
+    fun updateDyslexia(newValue: Boolean) {
+        _options.update { currentState ->
             currentState.copy(
-                darkMode = !_uiState.value.darkMode,
-                mustSwitchMode = false
+                dyslexia = newValue
             )
+        }
+        _editor.apply {
+            putBoolean("dyslexia", newValue)
+            apply()
         }
     }
 }

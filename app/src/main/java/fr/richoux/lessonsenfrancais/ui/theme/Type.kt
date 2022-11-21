@@ -25,7 +25,6 @@ val Typography = Typography(
     body1 = TextStyle(
 //        fontFamily = FontFamily.Default,
         fontFamily = Mulish,
-//        fontFamily = OpenDyslexic,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
@@ -47,4 +46,17 @@ val Typography = Typography(
         fontSize = 12.sp
     )
     */
+)
+
+val TypographyDyslexia = Typography(
+    body1 = TextStyle(
+        fontFamily = OpenDyslexic,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = FontFamily.Cursive,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    )
 )
