@@ -14,6 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import fr.richoux.lessonsenfrancais.ui.AppViewModel
 import fr.richoux.lessonsenfrancais.ui.DrawerMenu
 import fr.richoux.lessonsenfrancais.ui.TopBar
 import fr.richoux.lessonsenfrancais.ui.customShape
@@ -24,7 +26,8 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     onSimpleSelected: (context: Context) -> Unit = {},
     onComplexSelected: (context: Context) -> Unit = {},
-    onHomeClicked: () -> Unit = {}
+    onHomeClicked: () -> Unit = {},
+    appViewModel: AppViewModel
 ){
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
@@ -42,7 +45,10 @@ fun HomeScreen(
         },
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
         drawerContent = {
-            DrawerMenu(onHomeClicked)
+            DrawerMenu(
+                onHomeClicked = onHomeClicked,
+                appViewModel = appViewModel
+            )
         },
         drawerShape = customShape(),
         content = {
@@ -97,49 +103,6 @@ fun HomeScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-
-//        Button(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(150.dp)
-//                .padding(20.dp),
-//            border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-//            onClick = {
-//                Log.d(TAG, "Dark theme button pushed")
-//                Log.d(TAG, "Previously, Dark theme = ${appUIState.darkMode}")
-//                appViewModel.mustSwitchMode()
-//            }
-//        ) {
-//            Text(
-//                text = "Dark/Light mode ",
-//                color = MaterialTheme.colors.secondary,
-//                fontSize = 24.sp,
-//                textAlign = TextAlign.Center
-//            )
-//            Image(
-//                painter = painterResource(id = R.drawable.icon_dark_light),
-//                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
-//                contentDescription = "",
-//                contentScale = ContentScale.Fit,
-//                modifier = Modifier
-//                    .size(40.dp)
-//            )
-//        }
-//        if( appUIState.mustSwitchMode ) {
-//            Log.d(TAG, "Switch mode on")
-//            appViewModel.switchMode()
-//            Log.d(TAG, "Dark theme on? ${appUIState.darkMode}")
-//            SelectTheme( darkTheme = appUIState.darkMode ) {
-//                Home( appViewModel )
-//            }
-//        }
-
-//        if( appUIState.selectCards > 0 )
-//        {
-//            Log.d(TAG, "Select cards, select=${appUIState.selectCards}")
-//            AppScreen(appViewModel)
-//        }
-
             }
         }
     )
@@ -149,6 +112,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     LesSonsEnFrançaisTheme {
-        HomeScreen()
+        HomeScreen(appViewModel = viewModel())
     }
 }

@@ -1,60 +1,81 @@
 package fr.richoux.lessonsenfrancais.ui
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import fr.richoux.lessonsenfrancais.R
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.random.Random
-import kotlin.random.nextInt
+import kotlinx.coroutines.flow.*
 
-class AppViewModel(darkMode: Boolean = false) : ViewModel() {
+private const val TAG = "AppViewModel"
+
+class AppViewModel(preferences: SharedPreferences) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppUIState())
     val uiState: StateFlow<AppUIState> = _uiState.asStateFlow()
 
-//    val simpleSounds: Array<String> = context.getResources().getStringArray(R.array.simple)
-//    val numberSimpleCards: Int = simpleSounds.size
-//    val complexSounds: Array<String> = context.getResources().getStringArray(R.array.complex)
-//    val numberComplexCards: Int = complexSounds.size
+    private val _options = MutableStateFlow(OptionsData())
+    val options: StateFlow<OptionsData> = _options.asStateFlow()
+
+    private val _editor = preferences.edit()
 
     init {
-        _uiState.value = AppUIState(darkMode = darkMode)
+        _uiState.value = preferences.getString("soundText", "")?.let {
+            AppUIState(
+                indexSimple = preferences.getInt("indexSimple", 0),
+                indexComplex = preferences.getInt("indexComplex", 0),
+                index = preferences.getInt("index", 0),
+                selectCards = preferences.getInt("selectCards", 0),
+                soundID = preferences.getInt("soundID", 2131755008),
+                soundText = it
+            )
+        }!!
+        _options.value = OptionsData(
+            darkMode = preferences.getBoolean("darkMode", false)
+        )
+        Log.d(TAG, "AppViewModel - index=${_uiState.value.index}, selectCards=${_uiState.value.selectCards}, soundText=${_uiState.value.soundText}, darkMode=${_options.value.darkMode}, startDate=${_uiState.value.startDate}")
     }
 
     fun updateCard(context: Context, newIndex: Int) {
         if (_uiState.value.selectCards == 1) {
             val text: String = context.getResources().getStringArray(R.array.simple)[newIndex]
+            val id: Int = context.getResources().getIdentifier(text,"raw",context.getPackageName())
             _uiState.update { currentState ->
                 currentState.copy(
                     index = newIndex,
                     indexSimple = newIndex,
-                    soundID = context.getResources().getIdentifier(
-                        text,
-                        "raw",
-                        context.getPackageName()
-                    ),
+                    soundID = id,
                     soundText = text
                 )
+            }
+            _editor.apply {
+                putInt("index", newIndex)
+                putInt("indexSimple", newIndex)
+                putInt("soundID", id)
+                putString("soundText", text)
+                apply()
             }
         }
         else if (_uiState.value.selectCards == 2) {
             val text: String = context.getResources().getStringArray(R.array.complex)[newIndex]
+            val id: Int = context.getResources().getIdentifier(text,"raw",context.getPackageName())
             _uiState.update { currentState ->
                 currentState.copy(
                     index = newIndex,
                     indexComplex = newIndex,
-                    soundID = context.getResources().getIdentifier(
-                        text,
-                        "raw",
-                        context.getPackageName()
-                    ),
+                    soundID = id,
                     soundText = text
                 )
+            }
+            _editor.apply {
+                putInt("index", newIndex)
+                putInt("indexComplex", newIndex)
+                putInt("soundID", id)
+                putString("soundText", text)
+                apply()
             }
         }
     }
@@ -74,17 +95,23 @@ class AppViewModel(darkMode: Boolean = false) : ViewModel() {
             text = context.getResources().getStringArray(R.array.complex)[index]
         }
 
+        val id: Int = context.getResources().getIdentifier(text,"raw",context.getPackageName())
+
         _uiState.update { currentState ->
             currentState.copy(
                 index = index,
-                soundID = context.getResources().getIdentifier(
-                    text,
-                    "raw",
-                    context.getPackageName()
-                ),
+                soundID = id,
                 soundText = text,
                 selectCards = selection
             )
+        }
+
+        _editor.apply {
+            putInt("index", index)
+            putInt("soundID", id)
+            putString("soundText", text)
+            putInt("selectCards", selection)
+            apply()
         }
     }
 
@@ -144,32 +171,23 @@ class AppViewModel(darkMode: Boolean = false) : ViewModel() {
         changeCardType(context, 2)
     }
 
-    fun initDarkLightMode(darkMode: Boolean) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                darkMode = darkMode
-            )
-        }
-    }
-
     fun getLastRoute(): String {
         return _uiState.value.lastRoute
     }
 
-    fun mustSwichMode() {
-        _uiState.update { currentState ->
-            currentState.copy(
-                mustSwitchMode = true
-            )
-        }
+    fun isDarkTheme(): Boolean {
+        return _options.value.darkMode
     }
 
-    fun switchMode() {
-        _uiState.update { currentState ->
+    fun updateDarkTheme(newValue: Boolean) {
+        _options.update { currentState ->
             currentState.copy(
-                darkMode = !_uiState.value.darkMode,
-                mustSwitchMode = false
+                darkMode = newValue
             )
+        }
+        _editor.apply {
+            putBoolean("darkMode", newValue)
+            apply()
         }
     }
 }

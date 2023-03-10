@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -13,30 +14,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.richoux.lessonsenfrancais.R
 import fr.richoux.lessonsenfrancais.ui.*
-import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
 fun DisplayCard(
     soundText: String
 ) {
-    val textFontSize = 80.sp
     var text = soundText
     when (text) {
         "doo" -> text = "do"
@@ -49,7 +45,7 @@ fun DisplayCard(
     val configuration = LocalConfiguration.current
     val spacerModifier: Modifier = when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
-            Modifier.height((-20).dp)
+            Modifier.height(IntrinsicSize.Min)
         }
         else -> {
             Modifier.width(30.dp)
@@ -59,26 +55,21 @@ fun DisplayCard(
     Text(
         text = text.uppercase(),
         color = MaterialTheme.colors.secondary,
-        fontSize = textFontSize
+        fontSize = 70.sp
     )
     Spacer(modifier = spacerModifier)
     Text(
         text = text,
         color = MaterialTheme.colors.secondary,
-        fontSize = textFontSize
+        fontSize = 70.sp
     )
     Spacer(modifier = spacerModifier)
     Text(
         text = text,
         color = MaterialTheme.colors.secondary,
-        fontSize = textFontSize,
+        fontSize = 70.sp,
         style = MaterialTheme.typography.body2
     )
-//            Text(
-//                text = text,
-//                color = MaterialTheme.colors.secondary,
-//                fontSize = textFontSize
-//            )
 }
 
 @Composable
@@ -88,7 +79,8 @@ fun CardScreen(
     onPreviousClicked: (context: Context) -> Unit = {},
     onNextClicked: (context: Context) -> Unit = {},
     onRandomClicked: (context: Context) -> Unit = {},
-    onHomeClicked: () -> Unit = {}
+    onHomeClicked: () -> Unit = {},
+    appViewModel: AppViewModel
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -108,7 +100,10 @@ fun CardScreen(
         },
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
         drawerContent = {
-            DrawerMenu(onHomeClicked)
+            DrawerMenu(
+                onHomeClicked = onHomeClicked,
+                appViewModel = appViewModel
+            )
         },
         drawerShape = customShape(),
         bottomBar = {
@@ -171,13 +166,6 @@ fun CardScreen(
                         .weight(0.33f)
                         .fillMaxHeight()
                         .padding(10.dp),
-//                .pointerInput(Unit){
-//                    detectTapGestures(
-//                        onLongPress = {
-//                            appViewModel.nextCard()
-//                        }
-//                    )
-//                },
                     contentPadding = PaddingValues(5.dp),
                     border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
                     colors = ButtonDefaults.textButtonColors(
@@ -251,146 +239,33 @@ fun CardScreen(
                         paddingSoundButton = 90
                     }
                 }
-//                Column(
-//                    modifier = modifier
-//                        .fillMaxWidth()
-//                        .weight(weightSoundButton),
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                    verticalArrangement = Arrangement.Center
-//                ) {
-                    Button(
-                        onClick = { mp.start() },
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .weight(weightSoundButton)
-                            .padding(bottom = paddingSoundButton.dp),
-                        shape = CircleShape,
-                        contentPadding = PaddingValues(5.dp),
-                        border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = MaterialTheme.colors.background,
-                            contentColor = MaterialTheme.colors.secondary
-                        )
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.speaker),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
-                            contentDescription = "",
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .size(52.dp)
-                        )
-                    }
-//                }
-
-                ////////////////////
-                // Navigation bar //
-                ////////////////////
-
-
-/*
-        val weightNavigationBar: Float = when (configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                0.25f
-            }
-            else -> {
-                0.5f
-            }
-        }
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .weight(weightNavigationBar),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Button(
-                onClick = {
-                    onPreviousClicked(context)
-                },
-                modifier = Modifier
-                    .weight(0.33f)
-                    .fillMaxHeight()
-                    .padding(10.dp),
-                contentPadding = PaddingValues(5.dp),
-                border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-                colors = ButtonDefaults.textButtonColors(
-                    backgroundColor = MaterialTheme.colors.background,
-                    contentColor = MaterialTheme.colors.secondary
-                )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_arrow_left),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(128.dp)
-                        .background(MaterialTheme.colors.background),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
-                )
-            }
-            Button(
-                onClick = {
-                    onHomeClicked()
-                },
-                modifier = Modifier
-                    .weight(0.33f)
-                    .fillMaxHeight()
-                    .padding(10.dp),
-                shape = CircleShape,
-                contentPadding = PaddingValues(5.dp),
-                border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-                colors = ButtonDefaults.textButtonColors(
-                    backgroundColor = MaterialTheme.colors.background,
-                    contentColor = MaterialTheme.colors.secondary
-                )
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_home),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(64.dp)
-                        .background(MaterialTheme.colors.background),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
-                )
-            }
-            Button(
-                onClick = {
-                    onNextClicked(context)
-                },
-                modifier = Modifier
-                    .weight(0.33f)
-                    .fillMaxHeight()
-                    .padding(10.dp),
-//                .pointerInput(Unit){
-//                    detectTapGestures(
-//                        onLongPress = {
-//                            appViewModel.nextCard()
-//                        }
-//                    )
-//                },
-                contentPadding = PaddingValues(5.dp),
-                border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-                colors = ButtonDefaults.textButtonColors(
-                    backgroundColor = MaterialTheme.colors.background,
-                    contentColor = MaterialTheme.colors.secondary
-                )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_arrow_right),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(128.dp)
-                        .background(MaterialTheme.colors.background),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
-                )
-            }
-        }
-    }
-    */
+                Button(
+                    onClick = { mp.start() },
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .weight(weightSoundButton)
+                        .padding(bottom = paddingSoundButton.dp),
+                    shape = CircleShape,
+                    contentPadding = PaddingValues(5.dp),
+                    border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
+                    colors = ButtonDefaults.textButtonColors(
+                        backgroundColor = MaterialTheme.colors.background,
+                        contentColor = MaterialTheme.colors.secondary
+                    )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.speaker),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
+                        contentDescription = "",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(52.dp)
+                    )
+                }
             }
         }
     )
 }
-
 
 //@Preview(showBackground = true)
 //@Composable

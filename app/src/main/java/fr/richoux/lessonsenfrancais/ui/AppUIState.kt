@@ -10,8 +10,6 @@ data class AppUIState(
     val selectCards: Int = 0,
     var soundID: Int = 2131755008, // 'a' sound ID
     val soundText: String = "",
-    val darkMode: Boolean = false,
-    val mustSwitchMode: Boolean = false,
     val lastRoute: String = "home",
     val startDate: LocalDateTime = LocalDateTime.now(),
     val random: Random? = null

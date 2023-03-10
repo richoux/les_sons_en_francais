@@ -1,5 +1,6 @@
 package fr.richoux.lessonsenfrancais.ui
 
+import android.icu.number.IntegerWidth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -32,7 +34,7 @@ fun customShape() =  object : Shape {
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        return Outline.Rectangle(Rect(0f,0f,400f /* width */, 150f /* height */))
+        return Outline.Rectangle(Rect(0f,0f,700f /* width */, 400f /* height */))
     }
 }
 
@@ -40,7 +42,10 @@ data class MenuItem(
     val id: String,
     val title: String,
     val contentDescription: String,
-    val icon: ImageVector
+    val icon: ImageVector?,
+    val isSwitch: Boolean = false,
+    val onSwitchSwitched: (Boolean) -> Unit = {},
+    val switchValue: Boolean = false
 )
 
 @Composable
@@ -87,14 +92,25 @@ fun DrawerMenuShape(
                     .clickable {
                         onItemClick(item)
                     }
-                    .padding(16.dp)
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = item.contentDescription,
-                    modifier = Modifier,
-                    tint = BackgroundTwitter
-                )
+                if(item.isSwitch) {
+                    Switch(
+                        checked = item.switchValue,
+                        onCheckedChange = { item.onSwitchSwitched(it) }
+                    )
+                }
+                else {
+                    item.icon?.let {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = item.contentDescription,
+                            modifier = Modifier,
+                            tint = BackgroundTwitter
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = item.title,
@@ -108,7 +124,8 @@ fun DrawerMenuShape(
 
 @Composable
 fun DrawerMenu(
-    onHomeClicked: () -> Unit = {}
+    onHomeClicked: () -> Unit = {},
+    appViewModel: AppViewModel
 ) {
     DrawerMenuShape(
         items = listOf(
@@ -118,12 +135,17 @@ fun DrawerMenu(
                 contentDescription = "Aller à l'écran-titre",
                 icon = Icons.Default.Home
             ),
-//                    MenuItem(
-//                        id = "settings",
-//                        title = "Options",
-//                        contentDescription = "Pour gérer les options",
-//                        icon = Icons.Default.Settings
-//                    )
+            MenuItem(
+                id = "darkMode",
+                title = "Thème sombre",
+                contentDescription = "Passe du thème clair au thème sombre",
+                icon = null,
+                isSwitch = true,
+                onSwitchSwitched = {
+                    appViewModel.updateDarkTheme(it)
+                },
+                switchValue = appViewModel.isDarkTheme()
+            )
         ),
         onItemClick = {
             onHomeClicked()
