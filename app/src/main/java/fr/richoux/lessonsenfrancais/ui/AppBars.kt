@@ -1,6 +1,5 @@
 package fr.richoux.lessonsenfrancais.ui
 
-import android.icu.number.IntegerWidth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -34,7 +32,7 @@ fun customShape() =  object : Shape {
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        return Outline.Rectangle(Rect(0f,0f,700f /* width */, 1200f /* height */))
+        return Outline.Rectangle(Rect(0f,0f,595f /* width */, 900f /* height */))
     }
 }
 
@@ -93,49 +91,134 @@ fun DrawerMenuShape(
                     .clickable {
                         onItemClick(item)
                     }
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(5.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
             ) {
                 if(item.isSwitch) {
-                    Switch(
+                    IconToggleButton(
                         checked = item.switchValue,
                         onCheckedChange = { item.onSwitchSwitched(it) }
-                    )
+                    ) {
+                        Button(
+                            onClick = { item.onSwitchSwitched(!item.switchValue) },
+                            shape = androidx.compose.foundation.shape.CircleShape
+                        ) {
+                            val fontFamily: FontFamily = when(item.isTextCursive) {
+                                false -> {
+                                    Mulish
+                                }
+                                else -> {
+                                    FontFamily.Cursive
+                                }
+                            }
+                            val fontSize: TextUnit = when(item.isTextCursive) {
+                                false -> {
+                                    18.sp
+                                }
+                                else -> {
+                                    24.sp
+                                }
+                            }
+                            if(item.switchValue) {
+                                Text(
+                                    text = "\u2705",
+                                    modifier = Modifier
+                                        .background(MaterialTheme.colors.primary)
+                                )
+                            }
+                            else{
+                                Text(
+                                    text = "\u274C",
+                                    modifier = Modifier
+                                        .background(MaterialTheme.colors.primary)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(
+                                text = item.title,
+                                style = itemTextStyle,
+                                modifier = Modifier
+                                    .background(MaterialTheme.colors.primary),
+                                fontFamily = fontFamily,
+                                fontSize = fontSize
+                            )
+                        }
+                    }
+//                    Switch(
+//                        checked = item.switchValue,
+//                        onCheckedChange = { item.onSwitchSwitched(it) }
+//                    )
                 }
                 else {
                     item.icon?.let {
-                        Icon(
-                            imageVector = it,
-                            contentDescription = item.contentDescription,
-                            modifier = Modifier,
-                            tint = BackgroundTwitter
-                        )
+                        Button(
+                            onClick = {onItemClick(item)},
+                            shape = androidx.compose.foundation.shape.CircleShape
+                        ) {
+                            Icon(
+                                imageVector = it,
+                                contentDescription = item.contentDescription,
+                                modifier = Modifier,
+                                tint = BackgroundTwitter
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(
+                                text = item.title,
+                                style = itemTextStyle
+                            )
+                        }
                     }
                 }
-                Spacer(modifier = Modifier.width(16.dp))
-                val fontFamily: FontFamily = when(item.isTextCursive) {
-                    false -> {
-                        Mulish
-                    }
-                    else -> {
-                        FontFamily.Cursive
-                    }
-                }
-                val fontSize: TextUnit = when(item.isTextCursive) {
-                    false -> {
-                        18.sp
-                    }
-                    else -> {
-                        24.sp
-                    }
-                }
-                Text(
-                    text = item.title,
-                    style = itemTextStyle,
-                    modifier = Modifier.weight(1f),
-                    fontFamily = fontFamily,
-                    fontSize = fontSize
-                )
+//                Spacer(modifier = Modifier.width(16.dp))
+//                val fontFamily: FontFamily = when(item.isTextCursive) {
+//                    false -> {
+//                        Mulish
+//                    }
+//                    else -> {
+//                        FontFamily.Cursive
+//                    }
+//                }
+//                val fontSize: TextUnit = when(item.isTextCursive) {
+//                    false -> {
+//                        18.sp
+//                    }
+//                    else -> {
+//                        24.sp
+//                    }
+//                }
+//                if(item.isSwitch) {
+//                    Button(
+//                        onClick = { item.onSwitchSwitched(!item.switchValue) },
+//                        modifier = Modifier
+//                            .background(MaterialTheme.colors.primaryVariant)
+//                            .border(
+//                                border = BorderStroke(
+//                                    0.dp,
+//                                    MaterialTheme.colors.primaryVariant
+//                                )
+//                            )
+//                    )
+//                    {
+//                        Text(
+//                            text = item.title,
+//                            style = itemTextStyle,
+//                            modifier = Modifier
+//                                .background(MaterialTheme.colors.primaryVariant),
+//                            fontFamily = fontFamily,
+//                            fontSize = fontSize
+//                        )
+//                    }
+//                }
+//                else {
+//                    Text(
+//                        text = item.title,
+//                        style = itemTextStyle,
+//                        modifier = Modifier.weight(1f),
+//                        fontFamily = fontFamily,
+//                        fontSize = fontSize
+//                    )
+//                }
             }
         }
     }
@@ -167,7 +250,7 @@ fun DrawerMenu(
             ),
             MenuItem(
                 id = "lowercase",
-                title = "minuscules",
+                title = " minuscules",
                 contentDescription = "Afficher les lettres minuscules",
                 icon = null,
                 isSwitch = true,

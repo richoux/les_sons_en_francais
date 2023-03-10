@@ -10,8 +10,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fr.richoux.lessonsenfrancais.ui.screens.CardScreen
-import fr.richoux.lessonsenfrancais.ui.screens.Screens
 import fr.richoux.lessonsenfrancais.ui.screens.HomeScreen
+import fr.richoux.lessonsenfrancais.ui.screens.Screens
 import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 
 private const val TAG = "Navigation"

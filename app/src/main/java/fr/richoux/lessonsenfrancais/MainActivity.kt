@@ -10,7 +10,6 @@ import fr.richoux.lessonsenfrancais.ui.Navigation
 import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 
 class MainActivity : ComponentActivity() {
-
     private val TAG = "Main"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

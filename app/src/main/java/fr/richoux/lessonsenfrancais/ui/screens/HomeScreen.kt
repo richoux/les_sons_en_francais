@@ -94,18 +94,26 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.SpaceAround
                         )
                         {
-                            when( uppercase ) {
-                                true -> {
-                                    Text(
-                                        text = text.uppercase(),
-                                        color = MaterialTheme.colors.secondary,
-                                        fontSize = 36.sp,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
+                            if( uppercase ) {
+                                Text(
+                                    text = text.uppercase(),
+                                    color = MaterialTheme.colors.secondary,
+                                    fontSize = 36.sp,
+                                    textAlign = TextAlign.Center
+                                )
                             }
-                            when( lowercase ) {
-                                true -> {
+                            if( lowercase ) {
+                                Text(
+                                    text = text,
+                                    color = MaterialTheme.colors.secondary,
+                                    fontSize = 36.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                            else
+                            {
+                                if( !uppercase && !cursive) {
+                                    // if everything is off, force lowercase
                                     Text(
                                         text = text,
                                         color = MaterialTheme.colors.secondary,
@@ -113,37 +121,18 @@ fun HomeScreen(
                                         textAlign = TextAlign.Center
                                     )
                                 }
-                                else -> {
-                                    when( uppercase ) {
-                                        false ->{
-                                            when( cursive ) {
-                                                false -> {
-                                                    Text(
-                                                        text = text,
-                                                        color = MaterialTheme.colors.secondary,
-                                                        fontSize = 36.sp,
-                                                        textAlign = TextAlign.Center
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
                             }
-                            when( cursive ) {
-                                true -> {
-                                    Text(
-                                        text = text,
-                                        color = MaterialTheme.colors.secondary,
-                                        fontFamily = FontFamily.Cursive,
-                                        fontSize = 36.sp,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
+                            if( cursive ) {
+                                Text(
+                                    text = text,
+                                    color = MaterialTheme.colors.secondary,
+                                    fontFamily = FontFamily.Cursive,
+                                    fontSize = 36.sp,
+                                    textAlign = TextAlign.Center
+                                )
                             }
                         }
                     }
-
                 }
             }
         }
