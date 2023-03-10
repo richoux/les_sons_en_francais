@@ -39,10 +39,64 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
         Log.d(TAG, "AppViewModel - index=${_uiState.value.index}, selectCards=${_uiState.value.selectCards}, soundText=${_uiState.value.soundText}, darkMode=${_options.value.darkMode}, startDate=${_uiState.value.startDate}")
     }
 
+    fun convertTextFile(textFile: String): String {
+        var text = textFile
+        when (text) {
+            "aille" -> text = "ail"
+            "ain" -> text = "in"
+            "au" -> text = "o"
+            "am" -> text = "an"
+            "ca" -> text = "ka"
+            "cca" -> text = "sa"
+            "ce" -> text = "si"
+            "ci" -> text = "si"
+            "co" -> text = "ko"
+            "cu" -> text = "ku"
+            "eau" -> text = "o"
+            "ee" -> text = "et"
+            "eee" -> text = "ai"
+            "eeee" -> text = "ai"
+            "ei" -> text = "ai"
+            "eille" -> text = "eil"
+            "ein" -> text = "in"
+            "em" -> text = "an"
+            "en" -> text = "an"
+            "er" -> text = "et"
+            "est" -> text = "ai"
+            "eu" -> text = "e"
+            "euille" -> text = "euil"
+            "im" -> text = "in"
+            "y" -> text = "i"
+            "py" -> text = "pi"
+            "by" -> text = "bi"
+            "ly" -> text = "li"
+            "ty" -> text = "ti"
+            "ry" -> text = "ri"
+            "sy" -> text = "si"
+            "vy" -> text = "vi"
+            "ny" -> text = "ni"
+            "my" -> text = "mi"
+            "dy" -> text = "di"
+            "zy" -> text = "zi"
+            "ky" -> text = "ki"
+            "gy" -> text = "gi"
+            "cy" -> text = "si"
+            "chy" -> text = "chi"
+            "om" -> text = "on"
+            "ouille" -> text = "ouil"
+            "qua" -> text = "ka"
+            "que" -> text = "ke"
+            "qui" -> text = "ki"
+            "quo" -> text = "ko"
+            "un" -> text = "in"
+        }
+        return text
+    }
+
     fun updateCard(context: Context, newIndex: Int) {
         if (_uiState.value.selectCards == 1) {
             val text: String = context.getResources().getStringArray(R.array.simple)[newIndex]
-            val id: Int = context.getResources().getIdentifier(text,"raw",context.getPackageName())
+            val id: Int = context.getResources().getIdentifier(convertTextFile(text),"raw",context.getPackageName())
             _uiState.update { currentState ->
                 currentState.copy(
                     index = newIndex,
@@ -61,7 +115,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
         }
         else if (_uiState.value.selectCards == 2) {
             val text: String = context.getResources().getStringArray(R.array.complex)[newIndex]
-            val id: Int = context.getResources().getIdentifier(text,"raw",context.getPackageName())
+            val id: Int = context.getResources().getIdentifier(convertTextFile(text),"raw",context.getPackageName())
             _uiState.update { currentState ->
                 currentState.copy(
                     index = newIndex,
@@ -78,6 +132,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
                 apply()
             }
         }
+        Log.d(TAG, "AppViewModel - soundText=${_uiState.value.soundText}, soundID=${_uiState.value.soundID}, startDate=${_uiState.value.startDate}")
     }
 
     fun changeCardType(context: Context, selection: Int) {
@@ -95,7 +150,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             text = context.getResources().getStringArray(R.array.complex)[index]
         }
 
-        val id: Int = context.getResources().getIdentifier(text,"raw",context.getPackageName())
+        val id: Int = context.getResources().getIdentifier(convertTextFile(text),"raw",context.getPackageName())
 
         _uiState.update { currentState ->
             currentState.copy(

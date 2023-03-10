@@ -46,36 +46,43 @@
         <item>i</item>
         <item>o</item>
         <item>u</item>
+        <item>y</item>
         <item>pa</item>
         <item>pe</item>
         <item>pi</item>
         <item>po</item>
         <item>pu</item>
+        <item>py</item>
         <item>ba</item>
         <item>be</item>
         <item>bi</item>
         <item>bo</item>
         <item>bu</item>
+        <item>by</item>
         <item>la</item>
         <item>le</item>
         <item>li</item>
         <item>lo</item>
         <item>lu</item>
+        <item>ly</item>
         <item>ta</item>
         <item>te</item>
         <item>ti</item>
         <item>to</item>
         <item>tu</item>
+        <item>ty</item>
         <item>ra</item>
         <item>re</item>
         <item>ri</item>
         <item>ro</item>
         <item>ru</item>
+        <item>ry</item>
         <item>sa</item>
         <item>se</item>
         <item>si</item>
         <item>so</item>
         <item>su</item>
+        <item>sy</item>
         <item>ee</item>
         <item>eee</item>
         <item>eeee</item>
@@ -84,11 +91,13 @@
         <item>vi</item>
         <item>vo</item>
         <item>vu</item>
+        <item>vy</item>
         <item>na</item>
         <item>ne</item>
         <item>ni</item>
         <item>no</item>
         <item>nu</item>
+        <item>ny</item>
         <item>un</item>
         <item>une</item>
         <item>et</item>
@@ -103,11 +112,13 @@
         <item>mi</item>
         <item>mo</item>
         <item>mu</item>
+        <item>my</item>
         <item>da</item>
         <item>de</item>
         <item>di</item>
         <item>doo</item>
         <item>du</item>
+        <item>dy</item>
         <item>ja</item>
         <item>je</item>
         <item>ji</item>
@@ -118,11 +129,13 @@
         <item>zi</item>
         <item>zo</item>
         <item>zu</item>
+        <item>zy</item>
         <item>ka</item>
         <item>ke</item>
         <item>ki</item>
         <item>ko</item>
         <item>ku</item>
+        <item>ky</item>
         <item>ga</item>
         <item>ge</item>
         <item>gue</item>
@@ -130,12 +143,14 @@
         <item>gui</item>
         <item>go</item>
         <item>gu</item>
+        <item>gy</item>
         <item>ca</item>
         <item>cca</item>
         <item>ce</item>
         <item>co</item>
         <item>ci</item>
         <item>cu</item>
+        <item>cy</item>
         <item>qua</item>
         <item>que</item>
         <item>qui</item>
@@ -145,5 +160,6 @@
         <item>chi</item>
         <item>cho</item>
         <item>chu</item>
+        <item>chy</item>
     </string-array>
 </resources>
