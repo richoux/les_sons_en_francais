@@ -34,7 +34,10 @@ private const val TAG = "CardScreen"
 
 @Composable
 fun DisplayCard(
-    soundText: String
+    soundText: String,
+    uppercase: Boolean,
+    lowercase: Boolean,
+    cursive: Boolean,
 ) {
     var text = soundText
     when (text) {
@@ -55,35 +58,50 @@ fun DisplayCard(
         }
     }
 
-    Text(
-        text = text.uppercase(),
-        color = MaterialTheme.colors.secondary,
-        fontSize = 70.sp
-    )
-    Spacer(modifier = spacerModifier)
-    Text(
-        text = text,
-        color = MaterialTheme.colors.secondary,
-        fontSize = 70.sp
-    )
-    Spacer(modifier = spacerModifier)
-    Text(
-        text = text,
-        color = MaterialTheme.colors.secondary,
-        fontSize = 70.sp,
-        style = MaterialTheme.typography.body2
-    )
+    when( uppercase ) {
+        true -> {
+            Text(
+                text = text.uppercase(),
+                color = MaterialTheme.colors.secondary,
+                fontSize = 70.sp
+            )
+            Spacer(modifier = spacerModifier)
+        }
+    }
+    when( lowercase ) {
+        true -> {
+            Text(
+                text = text,
+                color = MaterialTheme.colors.secondary,
+                fontSize = 70.sp
+            )
+            Spacer(modifier = spacerModifier)
+        }
+    }
+    when( cursive ) {
+        true -> {
+            Text(
+                text = text,
+                color = MaterialTheme.colors.secondary,
+                fontSize = 70.sp,
+                style = MaterialTheme.typography.body2
+            )
+        }
+    }
 }
 
 @Composable
 fun CardScreen(
+    appViewModel: AppViewModel,
     soundText: String,
     soundID: Int,
+    uppercase: Boolean,
+    lowercase: Boolean,
+    cursive: Boolean,
     onPreviousClicked: (context: Context) -> Unit = {},
     onNextClicked: (context: Context) -> Unit = {},
     onRandomClicked: (context: Context) -> Unit = {},
-    onHomeClicked: () -> Unit = {},
-    appViewModel: AppViewModel
+    onHomeClicked: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -207,7 +225,7 @@ fun CardScreen(
 //                            verticalArrangement = Arrangement.SpaceAround// .Vertical.Top //.spacedBy((-20).dp)
                         )
                         {
-                            DisplayCard(soundText)
+                            DisplayCard(soundText,uppercase, lowercase, cursive)
                         }
                     }
                     else -> {
@@ -221,7 +239,7 @@ fun CardScreen(
                             verticalAlignment = Alignment.Bottom
                         )
                         {
-                            DisplayCard(soundText)
+                            DisplayCard(soundText,uppercase, lowercase, cursive)
                         }
                     }
                 }

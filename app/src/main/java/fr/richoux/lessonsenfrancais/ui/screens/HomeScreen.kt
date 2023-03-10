@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,9 +27,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
+    appViewModel: AppViewModel,
+    uppercase: Boolean,
+    lowercase: Boolean,
+    cursive: Boolean,
     onSelected: (Context, Int) -> Unit = {it, index -> Unit},
-    onHomeClicked: () -> Unit = {},
-    appViewModel: AppViewModel
+    onHomeClicked: () -> Unit = {}
 ){
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
@@ -85,12 +89,59 @@ fun HomeScreen(
                             contentColor = MaterialTheme.colors.secondary
                         )
                     ) {
-                        Text(
-                            text = text,
-                            color = MaterialTheme.colors.secondary,
-                            fontSize = 36.sp,
-                            textAlign = TextAlign.Center
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceAround
                         )
+                        {
+                            when( uppercase ) {
+                                true -> {
+                                    Text(
+                                        text = text.uppercase(),
+                                        color = MaterialTheme.colors.secondary,
+                                        fontSize = 36.sp,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                            when( lowercase ) {
+                                true -> {
+                                    Text(
+                                        text = text,
+                                        color = MaterialTheme.colors.secondary,
+                                        fontSize = 36.sp,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                                else -> {
+                                    when( uppercase ) {
+                                        false ->{
+                                            when( cursive ) {
+                                                false -> {
+                                                    Text(
+                                                        text = text,
+                                                        color = MaterialTheme.colors.secondary,
+                                                        fontSize = 36.sp,
+                                                        textAlign = TextAlign.Center
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            when( cursive ) {
+                                true -> {
+                                    Text(
+                                        text = text,
+                                        color = MaterialTheme.colors.secondary,
+                                        fontFamily = FontFamily.Cursive,
+                                        fontSize = 36.sp,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        }
                     }
 
                 }
@@ -103,6 +154,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     LesSonsEnFrançaisTheme {
-        HomeScreen(appViewModel = viewModel())
+        HomeScreen(appViewModel = viewModel(),true,true,true)
     }
 }

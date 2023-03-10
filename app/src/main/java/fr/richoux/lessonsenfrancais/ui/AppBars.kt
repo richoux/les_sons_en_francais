@@ -21,13 +21,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import fr.richoux.lessonsenfrancais.R
 import fr.richoux.lessonsenfrancais.ui.theme.BackgroundTwitter
+import fr.richoux.lessonsenfrancais.ui.theme.Mulish
 
 fun customShape() =  object : Shape {
     override fun createOutline(
@@ -35,7 +34,7 @@ fun customShape() =  object : Shape {
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        return Outline.Rectangle(Rect(0f,0f,700f /* width */, 400f /* height */))
+        return Outline.Rectangle(Rect(0f,0f,700f /* width */, 1200f /* height */))
     }
 }
 
@@ -44,6 +43,7 @@ data class MenuItem(
     val title: String,
     val contentDescription: String,
     val icon: ImageVector?,
+    val isTextCursive: Boolean = false,
     val isSwitch: Boolean = false,
     val onSwitchSwitched: (Boolean) -> Unit = {},
     val switchValue: Boolean = false
@@ -113,10 +113,28 @@ fun DrawerMenuShape(
                     }
                 }
                 Spacer(modifier = Modifier.width(16.dp))
+                val fontFamily: FontFamily = when(item.isTextCursive) {
+                    false -> {
+                        Mulish
+                    }
+                    else -> {
+                        FontFamily.Cursive
+                    }
+                }
+                val fontSize: TextUnit = when(item.isTextCursive) {
+                    false -> {
+                        18.sp
+                    }
+                    else -> {
+                        24.sp
+                    }
+                }
                 Text(
                     text = item.title,
                     style = itemTextStyle,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    fontFamily = fontFamily,
+                    fontSize = fontSize
                 )
             }
         }
@@ -135,6 +153,40 @@ fun DrawerMenu(
                 title = "Liste des sons",
                 contentDescription = "Retour sur la liste des sons",
                 icon = Icons.Default.List
+            ),
+            MenuItem(
+                id = "uppercase",
+                title = "MAJUSCULES",
+                contentDescription = "Afficher les lettres majuscules",
+                icon = null,
+                isSwitch = true,
+                onSwitchSwitched = {
+                    appViewModel.updateUppercase(it)
+                },
+                switchValue = appViewModel.isUppercase()
+            ),
+            MenuItem(
+                id = "lowercase",
+                title = "minuscules",
+                contentDescription = "Afficher les lettres minuscules",
+                icon = null,
+                isSwitch = true,
+                onSwitchSwitched = {
+                    appViewModel.updateLowercase(it)
+                },
+                switchValue = appViewModel.isLowercase()
+            ),
+            MenuItem(
+                id = "cursive",
+                title = "cursives",
+                contentDescription = "Afficher les lettres cursives",
+                icon = null,
+                isTextCursive = true,
+                isSwitch = true,
+                onSwitchSwitched = {
+                    appViewModel.updateCursive(it)
+                },
+                switchValue = appViewModel.isCursive()
             ),
             MenuItem(
                 id = "darkMode",

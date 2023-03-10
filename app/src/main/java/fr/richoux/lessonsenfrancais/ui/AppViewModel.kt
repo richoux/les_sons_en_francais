@@ -31,6 +31,9 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             )
         }!!
         _options.value = OptionsData(
+            uppercase = preferences.getBoolean("uppercase", true),
+            lowercase = preferences.getBoolean("lowercase", true),
+            cursive = preferences.getBoolean("cursive", true),
             darkMode = preferences.getBoolean("darkMode", false)
         )
         Log.d(TAG, "AppViewModel - index=${_uiState.value.index}, soundText=${_uiState.value.soundText}, soundID=${_uiState.value.soundID}, darkMode=${_options.value.darkMode}, startDate=${_uiState.value.startDate}")
@@ -173,4 +176,53 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             apply()
         }
     }
+
+    fun isUppercase(): Boolean {
+        return _options.value.uppercase
+    }
+
+    fun updateUppercase(newValue: Boolean) {
+        _options.update { currentState ->
+            currentState.copy(
+                uppercase = newValue
+            )
+        }
+        _editor.apply {
+            putBoolean("uppercase", newValue)
+            apply()
+        }
+    }
+
+    fun isLowercase(): Boolean {
+        return _options.value.lowercase
+    }
+
+    fun updateLowercase(newValue: Boolean) {
+        _options.update { currentState ->
+            currentState.copy(
+                lowercase = newValue
+            )
+        }
+        _editor.apply {
+            putBoolean("lowercase", newValue)
+            apply()
+        }
+    }
+
+    fun isCursive(): Boolean {
+        return _options.value.cursive
+    }
+
+    fun updateCursive(newValue: Boolean) {
+        _options.update { currentState ->
+            currentState.copy(
+                cursive = newValue
+            )
+        }
+        _editor.apply {
+            putBoolean("cursive", newValue)
+            apply()
+        }
+    }
+
 }

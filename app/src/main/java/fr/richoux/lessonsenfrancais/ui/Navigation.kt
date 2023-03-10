@@ -31,9 +31,11 @@ fun Navigation(
                 darkTheme = options.darkMode
             ) {
                 Log.d(TAG, "HomeScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}")
-
                 HomeScreen(
                     appViewModel = appViewModel,
+                    uppercase = options.uppercase,
+                    lowercase = options.lowercase,
+                    cursive = options.cursive,
                     onSelected = { it: Context, index: Int ->
                         appViewModel.updateCard(it, index)
                         navController.navigate(Screens.CardScreen.route)
@@ -48,14 +50,14 @@ fun Navigation(
             LesSonsEnFrançaisTheme(
                 darkTheme = options.darkMode
             ) {
-                Log.d(
-                    TAG,
-                    "CardScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}"
-                )
+                Log.d(TAG,"CardScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}" )
                 CardScreen(
                     appViewModel = appViewModel,
                     soundText = uiState.soundText,
                     soundID = uiState.soundID,
+                    uppercase = options.uppercase,
+                    lowercase = options.lowercase,
+                    cursive = options.cursive,
                     onPreviousClicked = {
                         appViewModel.previousCard(it)
                     },
