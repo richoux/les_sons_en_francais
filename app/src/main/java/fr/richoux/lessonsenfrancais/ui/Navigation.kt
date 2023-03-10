@@ -1,5 +1,6 @@
 package fr.richoux.lessonsenfrancais.ui
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -12,7 +13,6 @@ import fr.richoux.lessonsenfrancais.ui.screens.CardScreen
 import fr.richoux.lessonsenfrancais.ui.screens.Screens
 import fr.richoux.lessonsenfrancais.ui.screens.HomeScreen
 import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 private const val TAG = "Navigation"
 
@@ -30,16 +30,12 @@ fun Navigation(
             LesSonsEnFrançaisTheme(
                 darkTheme = options.darkMode
             ) {
-                Log.d(TAG, "HomeScreen - index=${uiState.index}, selectCards=${uiState.selectCards}, soundText=${uiState.soundText}, startDate=${uiState.startDate}")
+                Log.d(TAG, "HomeScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}")
 
                 HomeScreen(
                     appViewModel = appViewModel,
-                    onSimpleSelected = {
-                        appViewModel.simpleCards(it)
-                        navController.navigate(Screens.CardScreen.route)
-                    },
-                    onComplexSelected = {
-                        appViewModel.complexCards(it)
+                    onSelected = { it: Context, index: Int ->
+                        appViewModel.updateCard(it, index)
                         navController.navigate(Screens.CardScreen.route)
                     },
                     onHomeClicked = {
@@ -54,7 +50,7 @@ fun Navigation(
             ) {
                 Log.d(
                     TAG,
-                    "CardScreen - index=${uiState.index}, selectCards=${uiState.selectCards}, soundText=${uiState.soundText}, startDate=${uiState.startDate}"
+                    "CardScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}"
                 )
                 CardScreen(
                     appViewModel = appViewModel,

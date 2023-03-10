@@ -3,6 +3,7 @@ package fr.richoux.lessonsenfrancais.ui.screens
 import android.content.Context
 import android.content.res.Configuration
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,6 +29,8 @@ import fr.richoux.lessonsenfrancais.R
 import fr.richoux.lessonsenfrancais.ui.*
 import kotlinx.coroutines.launch
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+
+private const val TAG = "CardScreen"
 
 @Composable
 fun DisplayCard(
@@ -226,6 +229,8 @@ fun CardScreen(
                 //////////////////
                 // Sound button //
                 //////////////////
+                Log.d(TAG, "CardScreen - soundID=${soundID}")
+
                 val mp: MediaPlayer = MediaPlayer.create(context, soundID)
                 val weightSoundButton: Float
                 val paddingSoundButton: Int

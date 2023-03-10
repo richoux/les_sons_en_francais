@@ -25,10 +25,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
     init {
         _uiState.value = preferences.getString("soundText", "")?.let {
             AppUIState(
-                indexSimple = preferences.getInt("indexSimple", 0),
-                indexComplex = preferences.getInt("indexComplex", 0),
                 index = preferences.getInt("index", 0),
-                selectCards = preferences.getInt("selectCards", 0),
                 soundID = preferences.getInt("soundID", 2131755008),
                 soundText = it
             )
@@ -36,7 +33,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
         _options.value = OptionsData(
             darkMode = preferences.getBoolean("darkMode", false)
         )
-        Log.d(TAG, "AppViewModel - index=${_uiState.value.index}, selectCards=${_uiState.value.selectCards}, soundText=${_uiState.value.soundText}, darkMode=${_options.value.darkMode}, startDate=${_uiState.value.startDate}")
+        Log.d(TAG, "AppViewModel - index=${_uiState.value.index}, soundText=${_uiState.value.soundText}, soundID=${_uiState.value.soundID}, darkMode=${_options.value.darkMode}, startDate=${_uiState.value.startDate}")
     }
 
     fun convertTextFile(textFile: String): String {
@@ -48,7 +45,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             "am" -> text = "an"
             "ca" -> text = "ka"
             "cca" -> text = "sa"
-            "ce" -> text = "si"
+            "ce" -> text = "se"
             "ci" -> text = "si"
             "co" -> text = "ko"
             "cu" -> text = "ku"
@@ -94,87 +91,26 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
     }
 
     fun updateCard(context: Context, newIndex: Int) {
-        if (_uiState.value.selectCards == 1) {
-            val text: String = context.getResources().getStringArray(R.array.simple)[newIndex]
-            val id: Int = context.getResources().getIdentifier(convertTextFile(text),"raw",context.getPackageName())
-            _uiState.update { currentState ->
-                currentState.copy(
-                    index = newIndex,
-                    indexSimple = newIndex,
-                    soundID = id,
-                    soundText = text
-                )
-            }
-            _editor.apply {
-                putInt("index", newIndex)
-                putInt("indexSimple", newIndex)
-                putInt("soundID", id)
-                putString("soundText", text)
-                apply()
-            }
+        val text: String = context.getResources().getStringArray(R.array.sounds)[newIndex]
+        val id: Int = context.getResources().getIdentifier(convertTextFile(text),"raw",context.getPackageName())
+        _uiState.update { currentState ->
+            currentState.copy(
+                index = newIndex,
+                soundID = id,
+                soundText = text
+            )
         }
-        else if (_uiState.value.selectCards == 2) {
-            val text: String = context.getResources().getStringArray(R.array.complex)[newIndex]
-            val id: Int = context.getResources().getIdentifier(convertTextFile(text),"raw",context.getPackageName())
-            _uiState.update { currentState ->
-                currentState.copy(
-                    index = newIndex,
-                    indexComplex = newIndex,
-                    soundID = id,
-                    soundText = text
-                )
-            }
-            _editor.apply {
-                putInt("index", newIndex)
-                putInt("indexComplex", newIndex)
-                putInt("soundID", id)
-                putString("soundText", text)
-                apply()
-            }
+        _editor.apply {
+            putInt("index", newIndex)
+            putInt("soundID", id)
+            putString("soundText", text)
+            apply()
         }
         Log.d(TAG, "AppViewModel - soundText=${_uiState.value.soundText}, soundID=${_uiState.value.soundID}, startDate=${_uiState.value.startDate}")
     }
 
-    fun changeCardType(context: Context, selection: Int) {
-        var text: String = ""
-        var index: Int = 0
-        val simpleSounds: Array<String> = context.getResources().getStringArray(R.array.simple)
-        val complexSounds: Array<String> = context.getResources().getStringArray(R.array.complex)
-
-        if(selection == 1) {
-            index = _uiState.value.indexSimple
-            text = context.getResources().getStringArray(R.array.simple)[index]
-        }
-        else if(selection == 2){
-            index = _uiState.value.indexComplex
-            text = context.getResources().getStringArray(R.array.complex)[index]
-        }
-
-        val id: Int = context.getResources().getIdentifier(convertTextFile(text),"raw",context.getPackageName())
-
-        _uiState.update { currentState ->
-            currentState.copy(
-                index = index,
-                soundID = id,
-                soundText = text,
-                selectCards = selection
-            )
-        }
-
-        _editor.apply {
-            putInt("index", index)
-            putInt("soundID", id)
-            putString("soundText", text)
-            putInt("selectCards", selection)
-            apply()
-        }
-    }
-
     fun numberCards(context: Context) : Int{
-        if(_uiState.value.selectCards == 1)
-            return context.getResources().getStringArray(R.array.simple).size
-        else
-            return context.getResources().getStringArray(R.array.complex).size
+        return context.getResources().getStringArray(R.array.sounds).size
     }
 
     fun randomCard(context: Context) {
@@ -216,14 +152,6 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             newIndex = _uiState.value.index + 1
 
         updateCard(context, newIndex)
-    }
-
-    fun simpleCards(context: Context) {
-        changeCardType(context,1)
-    }
-
-    fun complexCards(context: Context) {
-        changeCardType(context, 2)
     }
 
     fun getLastRoute(): String {

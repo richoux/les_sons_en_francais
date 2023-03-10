@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -131,9 +132,9 @@ fun DrawerMenu(
         items = listOf(
             MenuItem(
                 id = "home",
-                title = "Accueil",
-                contentDescription = "Aller à l'écran-titre",
-                icon = Icons.Default.Home
+                title = "Liste des sons",
+                contentDescription = "Retour sur la liste des sons",
+                icon = Icons.Default.List
             ),
             MenuItem(
                 id = "darkMode",

@@ -1,46 +1,6 @@
 <resources>
     <string name="app_name">Les Sons en Français</string>
-    <string-array name="complex">
-        <item>ou</item>
-        <item>oi</item>
-        <item>on</item>
-        <item>an</item>
-        <item>et</item>
-        <item>au</item>
-        <item>eu</item>
-        <item>en</item>
-        <item>in</item>
-        <item>ai</item>
-        <item>ei</item>
-        <item>gn</item>
-        <item>eau</item>
-        <item>ain</item>
-        <item>ein</item>
-        <item>ill</item>
-        <item>ph</item>
-        <item>ien</item>
-        <item>ail</item>
-        <item>aille</item>
-        <item>eil</item>
-        <item>eille</item>
-        <item>euil</item>
-        <item>euille</item>
-        <item>ouil</item>
-        <item>ouille</item>
-        <item>oin</item>
-        <item>er</item>
-        <item>ier</item>
-        <item>tion</item>
-        <item>esse</item>
-        <item>ette</item>
-        <item>elle</item>
-        <item>erre</item>
-        <item>om</item>
-        <item>im</item>
-        <item>em</item>
-        <item>am</item>
-    </string-array>
-    <string-array name="simple">
+    <string-array name="sounds">
         <item>a</item>
         <item>e</item>
         <item>i</item>
@@ -161,5 +121,43 @@
         <item>cho</item>
         <item>chu</item>
         <item>chy</item>
+        <item>ou</item>
+        <item>oi</item>
+        <item>on</item>
+        <item>an</item>
+        <item>et</item>
+        <item>au</item>
+        <item>eu</item>
+        <item>en</item>
+        <item>in</item>
+        <item>ai</item>
+        <item>ei</item>
+        <item>gn</item>
+        <item>eau</item>
+        <item>ain</item>
+        <item>ein</item>
+        <item>ill</item>
+        <item>ph</item>
+        <item>ien</item>
+        <item>ail</item>
+        <item>aille</item>
+        <item>eil</item>
+        <item>eille</item>
+        <item>euil</item>
+        <item>euille</item>
+        <item>ouil</item>
+        <item>ouille</item>
+        <item>oin</item>
+        <item>er</item>
+        <item>ier</item>
+        <item>tion</item>
+        <item>esse</item>
+        <item>ette</item>
+        <item>elle</item>
+        <item>erre</item>
+        <item>om</item>
+        <item>im</item>
+        <item>em</item>
+        <item>am</item>
     </string-array>
 </resources>
