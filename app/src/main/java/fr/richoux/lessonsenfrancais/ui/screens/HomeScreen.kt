@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -24,6 +27,42 @@ import fr.richoux.lessonsenfrancais.ui.TopBar
 import fr.richoux.lessonsenfrancais.ui.customShape
 import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 import kotlinx.coroutines.launch
+
+// from https://stackoverflow.com/questions/68611320/remember-lazycolumn-scroll-position-jetpack-compose
+private val SaveMap = mutableMapOf<String, KeyParams>()
+
+private data class KeyParams(
+    val params: String = "",
+    val index: Int,
+    val scrollOffset: Int
+)
+
+@Composable
+fun rememberForeverLazyListState(
+    key: String,
+    params: String = "",
+    initialFirstVisibleItemIndex: Int = 0,
+    initialFirstVisibleItemScrollOffset: Int = 0
+): LazyListState {
+    val scrollState = rememberSaveable(saver = LazyListState.Saver) {
+        var savedValue = SaveMap[key]
+        if (savedValue?.params != params) savedValue = null
+        val savedIndex = savedValue?.index ?: initialFirstVisibleItemIndex
+        val savedOffset = savedValue?.scrollOffset ?: initialFirstVisibleItemScrollOffset
+        LazyListState(
+            savedIndex,
+            savedOffset
+        )
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            val lastIndex = scrollState.firstVisibleItemIndex
+            val lastOffset = scrollState.firstVisibleItemScrollOffset
+            SaveMap[key] = KeyParams(params, lastIndex, lastOffset)
+        }
+    }
+    return scrollState
+}
 
 @Composable
 fun HomeScreen(
@@ -60,6 +99,7 @@ fun HomeScreen(
         drawerShape = customShape(),
         content = {
             LazyColumn(
+                state = rememberForeverLazyListState(key = "HomeScreen"),
                 modifier = Modifier.fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly

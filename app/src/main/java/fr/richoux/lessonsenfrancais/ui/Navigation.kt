@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fr.richoux.lessonsenfrancais.ui.screens.CardScreen
 import fr.richoux.lessonsenfrancais.ui.screens.HomeScreen
+import fr.richoux.lessonsenfrancais.ui.screens.AboutScreen
 import fr.richoux.lessonsenfrancais.ui.screens.Screens
 import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 
@@ -40,6 +41,19 @@ fun Navigation(
                         appViewModel.updateCard(it, index)
                         navController.navigate(Screens.CardScreen.route)
                     },
+                    onHomeClicked = {
+                        navController.navigate(Screens.HomeScreen.route)
+                    }
+                )
+            }
+        }
+        composable(route = Screens.AboutScreen.route) {
+            LesSonsEnFrançaisTheme(
+                darkTheme = options.darkMode
+            ) {
+                Log.d(TAG, "AboutScreen")
+                AboutScreen(
+                    appViewModel = appViewModel,
                     onHomeClicked = {
                         navController.navigate(Screens.HomeScreen.route)
                     }

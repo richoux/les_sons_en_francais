@@ -234,6 +234,12 @@ fun DrawerMenu(
                     appViewModel.updateDarkTheme(it)
                 },
                 switchValue = appViewModel.isDarkTheme()
+            ),
+            MenuItem(
+                id = "about",
+                title = "À propos",
+                contentDescription = "À propos de cette application",
+                icon = Icons.Default.List
             )
         ),
         onItemClick = {
