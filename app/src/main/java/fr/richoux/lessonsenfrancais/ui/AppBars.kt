@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -23,8 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import fr.richoux.lessonsenfrancais.R
-import fr.richoux.lessonsenfrancais.ui.theme.BackgroundTwitter
-import fr.richoux.lessonsenfrancais.ui.theme.Mulish
+import fr.richoux.lessonsenfrancais.ui.theme.*
 
 fun customShape() =  object : Shape {
     override fun createOutline(
@@ -76,8 +76,8 @@ fun TopBar (
 fun DrawerMenuShape(
     items: List<MenuItem>,
     modifier: Modifier = Modifier
-        .fillMaxHeight()
-        .background(MaterialTheme.colors.primaryVariant),
+        .fillMaxSize()
+        .background(MaterialTheme.colors.primary),
     itemTextStyle: TextStyle = TextStyle(
         fontSize = 18.sp,
         color = BackgroundTwitter
@@ -90,71 +90,69 @@ fun DrawerMenuShape(
                 modifier = Modifier
                     .clickable {
                         onItemClick(item)
-                    }
-                    .padding(5.dp),
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
                 if(item.isSwitch) {
-                    IconToggleButton(
-                        checked = item.switchValue,
-                        onCheckedChange = { item.onSwitchSwitched(it) }
+                    Button(
+                        onClick = { item.onSwitchSwitched(!item.switchValue) },
+                        shape = customShape(),
+                        modifier = Modifier
+                            .size(200.dp,50.dp)
+                            .background(MaterialTheme.colors.primary)
                     ) {
-                        Button(
-                            onClick = { item.onSwitchSwitched(!item.switchValue) },
-                            shape = androidx.compose.foundation.shape.CircleShape
-                        ) {
-                            val fontFamily: FontFamily = when(item.isTextCursive) {
-                                false -> {
-                                    Mulish
-                                }
-                                else -> {
-                                    FontFamily.Cursive
-                                }
+                        val fontFamily: FontFamily = when(item.isTextCursive) {
+                            false -> {
+                                Mulish
                             }
-                            val fontSize: TextUnit = when(item.isTextCursive) {
-                                false -> {
-                                    18.sp
-                                }
-                                else -> {
-                                    24.sp
-                                }
+                            else -> {
+                                FontFamily.Cursive
                             }
-                            if(item.switchValue) {
-                                Text(
-                                    text = "\u2705",
-                                    modifier = Modifier
-                                        .background(MaterialTheme.colors.primary)
-                                )
+                        }
+                        val fontSize: TextUnit = when(item.isTextCursive) {
+                            false -> {
+                                18.sp
                             }
-                            else{
-                                Text(
-                                    text = "\u274C",
-                                    modifier = Modifier
-                                        .background(MaterialTheme.colors.primary)
-                                )
+                            else -> {
+                                24.sp
                             }
-                            Spacer(modifier = Modifier.width(16.dp))
+                        }
+                        if(item.switchValue) {
                             Text(
-                                text = item.title,
-                                style = itemTextStyle,
+                                text = "\u2705",
                                 modifier = Modifier
                                     .background(MaterialTheme.colors.primary),
-                                fontFamily = fontFamily,
-                                fontSize = fontSize
+                                textAlign = TextAlign.Left
                             )
                         }
+                        else{
+                            Text(
+                                text = "\u274C",
+                                modifier = Modifier
+                                    .background(MaterialTheme.colors.primary),
+                                textAlign = TextAlign.Left
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(
+                            text = item.title,
+                            style = itemTextStyle,
+                            modifier = Modifier
+                                .background(MaterialTheme.colors.primary)
+                                .fillMaxWidth(),
+                            fontFamily = fontFamily,
+                            fontSize = fontSize,
+                            textAlign = TextAlign.Left
+                        )
                     }
-//                    Switch(
-//                        checked = item.switchValue,
-//                        onCheckedChange = { item.onSwitchSwitched(it) }
-//                    )
                 }
                 else {
                     item.icon?.let {
                         Button(
                             onClick = {onItemClick(item)},
-                            shape = androidx.compose.foundation.shape.CircleShape
+                            shape = customShape(),
+                            modifier = Modifier.background(MaterialTheme.colors.primary).size(200.dp,50.dp)
                         ) {
                             Icon(
                                 imageVector = it,
@@ -165,61 +163,16 @@ fun DrawerMenuShape(
                             Spacer(modifier = Modifier.width(16.dp))
                             Text(
                                 text = item.title,
-                                style = itemTextStyle
+                                style = itemTextStyle,
+                                modifier = Modifier
+                                    .background(MaterialTheme.colors.primary)
+                                    .fillMaxWidth()
                             )
                         }
                     }
                 }
-//                Spacer(modifier = Modifier.width(16.dp))
-//                val fontFamily: FontFamily = when(item.isTextCursive) {
-//                    false -> {
-//                        Mulish
-//                    }
-//                    else -> {
-//                        FontFamily.Cursive
-//                    }
-//                }
-//                val fontSize: TextUnit = when(item.isTextCursive) {
-//                    false -> {
-//                        18.sp
-//                    }
-//                    else -> {
-//                        24.sp
-//                    }
-//                }
-//                if(item.isSwitch) {
-//                    Button(
-//                        onClick = { item.onSwitchSwitched(!item.switchValue) },
-//                        modifier = Modifier
-//                            .background(MaterialTheme.colors.primaryVariant)
-//                            .border(
-//                                border = BorderStroke(
-//                                    0.dp,
-//                                    MaterialTheme.colors.primaryVariant
-//                                )
-//                            )
-//                    )
-//                    {
-//                        Text(
-//                            text = item.title,
-//                            style = itemTextStyle,
-//                            modifier = Modifier
-//                                .background(MaterialTheme.colors.primaryVariant),
-//                            fontFamily = fontFamily,
-//                            fontSize = fontSize
-//                        )
-//                    }
-//                }
-//                else {
-//                    Text(
-//                        text = item.title,
-//                        style = itemTextStyle,
-//                        modifier = Modifier.weight(1f),
-//                        fontFamily = fontFamily,
-//                        fontSize = fontSize
-//                    )
-//                }
             }
+            Divider(color = Black, thickness = 1.dp)
         }
     }
 }
@@ -250,7 +203,7 @@ fun DrawerMenu(
             ),
             MenuItem(
                 id = "lowercase",
-                title = " minuscules",
+                title = "minuscules",
                 contentDescription = "Afficher les lettres minuscules",
                 icon = null,
                 isSwitch = true,

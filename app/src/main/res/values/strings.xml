@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Les Sons en Français</string>
     <string-array name="sounds">
-        <item>a</item>
-        <item>e</item>
-        <item>i</item>
         <item>o</item>
+        <item>i</item>
+        <item>a</item>
         <item>u</item>
+        <item>e</item>
         <item>y</item>
         <item>pa</item>
         <item>pe</item>
@@ -13,6 +13,7 @@
         <item>po</item>
         <item>pu</item>
         <item>py</item>
+        <item>ee</item>
         <item>ba</item>
         <item>be</item>
         <item>bi</item>
@@ -43,7 +44,6 @@
         <item>so</item>
         <item>su</item>
         <item>sy</item>
-        <item>ee</item>
         <item>eee</item>
         <item>eeee</item>
         <item>va</item>
@@ -97,24 +97,24 @@
         <item>ku</item>
         <item>ky</item>
         <item>ga</item>
-        <item>ge</item>
         <item>gue</item>
-        <item>gi</item>
         <item>gui</item>
         <item>go</item>
         <item>gu</item>
-        <item>gy</item>
         <item>ca</item>
-        <item>cca</item>
-        <item>ce</item>
         <item>co</item>
-        <item>ci</item>
         <item>cu</item>
-        <item>cy</item>
         <item>qua</item>
         <item>que</item>
         <item>qui</item>
         <item>quo</item>
+        <item>cca</item>
+        <item>ce</item>
+        <item>ci</item>
+        <item>cy</item>
+        <item>ge</item>
+        <item>gi</item>
+        <item>gy</item>
         <item>cha</item>
         <item>che</item>
         <item>chi</item>
