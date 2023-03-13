@@ -82,7 +82,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             "dy" -> text = "di"
             "zy" -> text = "zi"
             "ky" -> text = "ki"
-            "gy" -> text = "gi"
+            "gy" -> text = "ji"
             "cy" -> text = "si"
             "chy" -> text = "chi"
             "om" -> text = "on"
@@ -92,6 +92,8 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             "qui" -> text = "ki"
             "quo" -> text = "ko"
             "un" -> text = "in"
+            "ge" -> text = "je"
+            "gi" -> text = "ji"
         }
         return text
     }
