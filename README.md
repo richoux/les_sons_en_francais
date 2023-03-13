@@ -7,9 +7,10 @@ of letters.
 
 ## How to use it
 
-Try to read the card on the top of the screen. Touch the middle of the
-screen to hear how to read the card. Navigate among cards with the two
-arrows on the bottom of the screen.
+Select a sound in the list and try  to read the card on the top of the
+screen.  Touch the  middle  of the  screen  to hear  how  to read  the
+card. Navigate  among cards with the  two arrows on the  bottom of the
+screen.
 
 ## Choice of the sounds and card order
 
@@ -24,4 +25,12 @@ I use Android Studio to develop this app. This repo contains the file project.
 ## License
 
 This app is under the term of the GNU GPL v3 license.
+
+## Screenshots
+
+![](https://github.com/richoux/les_sons_en_francais/wiki/images/01.jpg)
+![](https://github.com/richoux/les_sons_en_francais/wiki/images/02.jpg)
+![](https://github.com/richoux/les_sons_en_francais/wiki/images/03.jpg)
+![](https://github.com/richoux/les_sons_en_francais/wiki/images/04.jpg)
+![](https://github.com/richoux/les_sons_en_francais/wiki/images/05.jpg)
 
