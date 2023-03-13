@@ -96,7 +96,8 @@ fun CardScreen(
     onPreviousClicked: (context: Context) -> Unit = {},
     onNextClicked: (context: Context) -> Unit = {},
     onRandomClicked: (context: Context) -> Unit = {},
-    onHomeClicked: () -> Unit = {}
+    onHomeClicked: () -> Unit = {},
+    onAboutClicked: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -117,8 +118,9 @@ fun CardScreen(
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
         drawerContent = {
             DrawerMenu(
+                appViewModel = appViewModel,
                 onHomeClicked = onHomeClicked,
-                appViewModel = appViewModel
+                onAboutClicked = onAboutClicked
             )
         },
         drawerShape = customShape(),
@@ -216,8 +218,7 @@ fun CardScreen(
                                 .weight(1f)
                                 .padding(20.dp),
                             Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-//                            verticalArrangement = Arrangement.SpaceAround// .Vertical.Top //.spacedBy((-20).dp)
+                            horizontalAlignment = Alignment.CenterHorizontally
                         )
                         {
                             DisplayCard(soundText,uppercase, lowercase, cursive)
@@ -230,7 +231,6 @@ fun CardScreen(
                                 .padding(5.dp)
                                 .paddingFromBaseline(top = 0.dp),
                             Arrangement.SpaceBetween,
-//                            horizontalArrangement = Arrangement.SpaceAround, //.Horizontal.SpaceEvenly, //.spacedBy(30.dp)
                             verticalAlignment = Alignment.Bottom
                         )
                         {
@@ -284,11 +284,3 @@ fun CardScreen(
         }
     )
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun CardScreenPreview() {
-//    LesSonsEnFrançaisTheme {
-//        CardScreen( "a", 2131755008 )
-//    }
-//}

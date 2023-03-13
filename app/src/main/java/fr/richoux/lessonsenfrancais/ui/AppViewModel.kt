@@ -229,5 +229,4 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             apply()
         }
     }
-
 }

@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -24,7 +23,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import fr.richoux.lessonsenfrancais.R
-import fr.richoux.lessonsenfrancais.ui.theme.*
+import fr.richoux.lessonsenfrancais.ui.theme.BackgroundTwitter
+import fr.richoux.lessonsenfrancais.ui.theme.Black
+import fr.richoux.lessonsenfrancais.ui.theme.Mulish
 
 fun customShape() =  object : Shape {
     override fun createOutline(
@@ -41,10 +42,12 @@ data class MenuItem(
     val title: String,
     val contentDescription: String,
     val icon: ImageVector?,
+    val hasIcon: Boolean = false,
     val isTextCursive: Boolean = false,
     val isSwitch: Boolean = false,
     val onSwitchSwitched: (Boolean) -> Unit = {},
-    val switchValue: Boolean = false
+    val switchValue: Boolean = false,
+    val onClick: () -> Unit = {}
 )
 
 @Composable
@@ -148,27 +151,39 @@ fun DrawerMenuShape(
                     }
                 }
                 else {
-                    item.icon?.let {
-                        Button(
-                            onClick = {onItemClick(item)},
-                            shape = customShape(),
-                            modifier = Modifier.background(MaterialTheme.colors.primary).size(200.dp,50.dp)
-                        ) {
-                            Icon(
-                                imageVector = it,
-                                contentDescription = item.contentDescription,
-                                modifier = Modifier,
-                                tint = BackgroundTwitter
-                            )
-                            Spacer(modifier = Modifier.width(16.dp))
-                            Text(
-                                text = item.title,
-                                style = itemTextStyle,
-                                modifier = Modifier
-                                    .background(MaterialTheme.colors.primary)
-                                    .fillMaxWidth()
-                            )
+                    Button(
+                        onClick = when( item.hasIcon ) {
+                            true -> {
+                                {onItemClick(item)}
+                            }
+                            else -> {
+                                {item.onClick()}
+                            }
+                        },
+                        shape = customShape(),
+                        modifier = Modifier.background(MaterialTheme.colors.primary).size(200.dp,50.dp)
+                    ) {
+                        if( item.hasIcon ) {
+                            item.icon?.let {
+                                Icon(
+                                    imageVector = it,
+                                    contentDescription = item.contentDescription,
+                                    modifier = Modifier,
+                                    tint = BackgroundTwitter
+                                )
+                                Spacer(modifier = Modifier.width(16.dp))
+                            }
                         }
+                        else {
+                            Spacer(modifier = Modifier.width(32.dp))
+                        }
+                        Text(
+                            text = item.title,
+                            style = itemTextStyle,
+                            modifier = Modifier
+                                .background(MaterialTheme.colors.primary)
+                                .fillMaxWidth()
+                        )
                     }
                 }
             }
@@ -179,8 +194,9 @@ fun DrawerMenuShape(
 
 @Composable
 fun DrawerMenu(
+    appViewModel: AppViewModel,
     onHomeClicked: () -> Unit = {},
-    appViewModel: AppViewModel
+    onAboutClicked: () -> Unit = {}
 ) {
     DrawerMenuShape(
         items = listOf(
@@ -188,7 +204,8 @@ fun DrawerMenu(
                 id = "home",
                 title = "Liste des sons",
                 contentDescription = "Retour sur la liste des sons",
-                icon = Icons.Default.List
+                icon = Icons.Default.List,
+                hasIcon = true
             ),
             MenuItem(
                 id = "uppercase",
@@ -239,7 +256,8 @@ fun DrawerMenu(
                 id = "about",
                 title = "À propos",
                 contentDescription = "À propos de cette application",
-                icon = Icons.Default.List
+                icon = null,
+                onClick = { onAboutClicked() }
             )
         ),
         onItemClick = {

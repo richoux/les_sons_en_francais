@@ -9,9 +9,9 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import fr.richoux.lessonsenfrancais.ui.screens.AboutScreen
 import fr.richoux.lessonsenfrancais.ui.screens.CardScreen
 import fr.richoux.lessonsenfrancais.ui.screens.HomeScreen
-import fr.richoux.lessonsenfrancais.ui.screens.AboutScreen
 import fr.richoux.lessonsenfrancais.ui.screens.Screens
 import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 
@@ -43,6 +43,9 @@ fun Navigation(
                     },
                     onHomeClicked = {
                         navController.navigate(Screens.HomeScreen.route)
+                    },
+                    onAboutClicked = {
+                        navController.navigate(Screens.AboutScreen.route)
                     }
                 )
             }
@@ -56,6 +59,9 @@ fun Navigation(
                     appViewModel = appViewModel,
                     onHomeClicked = {
                         navController.navigate(Screens.HomeScreen.route)
+                    },
+                    onAboutClicked = {
+                        navController.navigate(Screens.AboutScreen.route)
                     }
                 )
             }
@@ -83,6 +89,9 @@ fun Navigation(
                     },
                     onHomeClicked = {
                         navController.navigate(Screens.HomeScreen.route)
+                    },
+                    onAboutClicked = {
+                        navController.navigate(Screens.AboutScreen.route)
                     }
                 )
             }

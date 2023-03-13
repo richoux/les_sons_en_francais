@@ -16,16 +16,13 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import fr.richoux.lessonsenfrancais.R
 import fr.richoux.lessonsenfrancais.ui.AppViewModel
 import fr.richoux.lessonsenfrancais.ui.DrawerMenu
 import fr.richoux.lessonsenfrancais.ui.TopBar
 import fr.richoux.lessonsenfrancais.ui.customShape
-import fr.richoux.lessonsenfrancais.ui.theme.LesSonsEnFrançaisTheme
 import kotlinx.coroutines.launch
 
 // from https://stackoverflow.com/questions/68611320/remember-lazycolumn-scroll-position-jetpack-compose
@@ -71,7 +68,8 @@ fun HomeScreen(
     lowercase: Boolean,
     cursive: Boolean,
     onSelected: (Context, Int) -> Unit = {it, index -> Unit},
-    onHomeClicked: () -> Unit = {}
+    onHomeClicked: () -> Unit = {},
+    onAboutClicked: () -> Unit = {}
 ){
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
@@ -92,8 +90,9 @@ fun HomeScreen(
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
         drawerContent = {
             DrawerMenu(
+                appViewModel = appViewModel,
                 onHomeClicked = onHomeClicked,
-                appViewModel = appViewModel
+                onAboutClicked = onAboutClicked
             )
         },
         drawerShape = customShape(),
@@ -177,12 +176,4 @@ fun HomeScreen(
             }
         }
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    LesSonsEnFrançaisTheme {
-        HomeScreen(appViewModel = viewModel(),true,true,true)
-    }
 }
