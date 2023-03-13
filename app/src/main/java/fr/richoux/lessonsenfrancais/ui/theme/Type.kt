@@ -12,39 +12,16 @@ val Mulish = FontFamily(
     Font(R.font.mulish_regular)
 )
 
-val OpenDyslexic = FontFamily(
-    Font(R.font.opendyslexic_regular)
-)
-
-val Parisienne = FontFamily(
-    Font(R.font.parisienne_regular)
-)
-
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-//        fontFamily = FontFamily.Default,
         fontFamily = Mulish,
-//        fontFamily = OpenDyslexic,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
     body2 = TextStyle(
         fontFamily = FontFamily.Cursive,
-//        fontFamily = Parisienne,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     )
-    */
 )
