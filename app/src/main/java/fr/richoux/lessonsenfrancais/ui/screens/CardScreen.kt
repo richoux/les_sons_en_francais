@@ -53,35 +53,29 @@ fun DisplayCard(
         }
     }
 
-    when( uppercase ) {
-        true -> {
-            Text(
-                text = text.uppercase(),
-                color = MaterialTheme.colors.secondary,
-                fontSize = 70.sp
-            )
-            Spacer(modifier = spacerModifier)
-        }
+    if (uppercase) {
+        Text(
+            text = text.uppercase(),
+            color = MaterialTheme.colors.secondary,
+            fontSize = 70.sp
+        )
+        Spacer(modifier = spacerModifier)
     }
-    when( lowercase ) {
-        true -> {
-            Text(
-                text = text,
-                color = MaterialTheme.colors.secondary,
-                fontSize = 70.sp
-            )
-            Spacer(modifier = spacerModifier)
-        }
+    if (lowercase) {
+        Text(
+            text = text,
+            color = MaterialTheme.colors.secondary,
+            fontSize = 70.sp
+        )
+        Spacer(modifier = spacerModifier)
     }
-    when( cursive ) {
-        true -> {
-            Text(
-                text = text,
-                color = MaterialTheme.colors.secondary,
-                fontSize = 70.sp,
-                style = MaterialTheme.typography.body2
-            )
-        }
+    if (cursive) {
+        Text(
+            text = text,
+            color = MaterialTheme.colors.secondary,
+            fontSize = 70.sp,
+            style = MaterialTheme.typography.body2
+        )
     }
 }
 
@@ -242,9 +236,8 @@ fun CardScreen(
                 //////////////////
                 // Sound button //
                 //////////////////
-                Log.d(TAG, "CardScreen - soundID=${soundID}")
-
                 val mp: MediaPlayer = MediaPlayer.create(context, soundID)
+                Log.d(TAG, "CardScreen - context=${context}, soundID=${soundID}, mediaplayer=${mp}")
                 val weightSoundButton: Float
                 val paddingSoundButton: Int
                 when (configuration.orientation) {

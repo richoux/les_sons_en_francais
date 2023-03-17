@@ -5,6 +5,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/home/flo/Seafile/Documents/Linux/key_store_android_studio/key_les_sons_en_français.jks')
+            storePassword 'gaebora3'
+            keyAlias 'key0'
+            keyPassword 'gaebora3'
+        }
+    }
     namespace 'fr.richoux.lessonsenfrancais'
     compileSdk 32
 
@@ -19,6 +27,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
