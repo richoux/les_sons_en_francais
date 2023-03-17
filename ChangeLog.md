@@ -1,7 +1,17 @@
 # ChangeLog
 
+## [1.2.2] - 2023-03-17
+- Fix crashes on some phones in release mode
+
+## [1.2.1] - 2023-03-13
+- hotfix: changed versionCode in build.gradle for Google Play
+
+## [1.2.0] - 2023-03-13
+- Change interface: Home is now the full list of sounds.
+- Add a 'About' screen.
+
 ## [1.1.1] - 2022-11-10
-- Drawable menu, going to the Home screen only so far,
+- Drawable menu, going to the Home screen only so far.
 - New themes, a bit less ugly.
 - Random card button.
 - Cursive writting, in addition of uppercase and lowercase letters.

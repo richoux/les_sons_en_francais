@@ -2,7 +2,6 @@ package fr.richoux.lessonsenfrancais.ui.screens
 
 import android.content.Context
 import android.content.res.Configuration
-import android.media.MediaPlayer
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -21,9 +20,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fr.richoux.lessonsenfrancais.PlayerFactory
 import fr.richoux.lessonsenfrancais.R
 import fr.richoux.lessonsenfrancais.ui.*
 import kotlinx.coroutines.launch
+
 
 private const val TAG = "CardScreen"
 
@@ -41,6 +42,7 @@ fun DisplayCard(
         "ee" -> text = "é"
         "eee" -> text = "è"
         "eeee" -> text = "ê"
+        "inn" -> text = "in"
     }
 
     val configuration = LocalConfiguration.current
@@ -236,8 +238,8 @@ fun CardScreen(
                 //////////////////
                 // Sound button //
                 //////////////////
-                val mp: MediaPlayer = MediaPlayer.create(context, soundID)
-                Log.d(TAG, "CardScreen - context=${context}, soundID=${soundID}, mediaplayer=${mp}")
+                Log.d(TAG, "CardScreen - context=${context}, soundID=${soundID}")
+                //var mp: MediaPlayer = MediaPlayer.create(context, soundID)
                 val weightSoundButton: Float
                 val paddingSoundButton: Int
                 when (configuration.orientation) {
@@ -251,7 +253,14 @@ fun CardScreen(
                     }
                 }
                 Button(
-                    onClick = { mp.start() },
+                    onClick = {
+                        val mp = PlayerFactory( context, soundID )//: MediaPlayer = MediaPlayer.create(context, soundID)
+                        mp.start()
+                        while(mp.isPlaying()) {}
+                        mp.stop()
+                        mp.reset()
+                        mp.release()
+                    },
                     modifier = modifier
                         .fillMaxWidth()
                         .weight(weightSoundButton)

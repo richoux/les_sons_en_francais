@@ -67,7 +67,7 @@ fun HomeScreen(
     uppercase: Boolean,
     lowercase: Boolean,
     cursive: Boolean,
-    onSelected: (Context, Int) -> Unit = {it, index -> Unit},
+    onSelected: (Context, Int) -> Unit = {_, _ -> Unit},
     onHomeClicked: () -> Unit = {},
     onAboutClicked: () -> Unit = {}
 ){
