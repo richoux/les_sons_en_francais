@@ -31,7 +31,7 @@ fun Navigation(
             LesSonsEnFrançaisTheme(
                 darkTheme = options.darkMode
             ) {
-                Log.d(TAG, "HomeScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}")
+                Log.d(TAG, "Nav.HomeScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}")
                 HomeScreen(
                     appViewModel = appViewModel,
                     uppercase = options.uppercase,
@@ -54,7 +54,7 @@ fun Navigation(
             LesSonsEnFrançaisTheme(
                 darkTheme = options.darkMode
             ) {
-                Log.d(TAG, "AboutScreen")
+                Log.d(TAG, "Nav.AboutScreen")
                 AboutScreen(
                     appViewModel = appViewModel,
                     onHomeClicked = {
@@ -70,7 +70,7 @@ fun Navigation(
             LesSonsEnFrançaisTheme(
                 darkTheme = options.darkMode
             ) {
-                Log.d(TAG,"CardScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}" )
+                Log.d(TAG,"Nav.CardScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}" )
                 CardScreen(
                     appViewModel = appViewModel,
                     soundText = uiState.soundText,

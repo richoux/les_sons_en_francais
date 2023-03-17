@@ -62,7 +62,6 @@ fun AboutScreen(
     onHomeClicked: () -> Unit = {},
     onAboutClicked: () -> Unit = {}
 ){
-    val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 

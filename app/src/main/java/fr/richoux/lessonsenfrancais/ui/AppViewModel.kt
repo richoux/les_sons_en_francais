@@ -26,13 +26,11 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
     private val _editor = preferences.edit()
 
     init {
-        _uiState.value = preferences.getString("soundText", "")?.let {
-            AppUIState(
+        _uiState.value = AppUIState(
                 index = preferences.getInt("index", 0),
-                soundID = preferences.getInt("soundID", 2131755008),
-                soundText = it
-            )
-        }!!
+                soundID = preferences.getInt("soundID", R.raw.o),
+                soundText = preferences.getString("soundText", "o")!!
+        )
         _options.value = OptionsData(
             uppercase = preferences.getBoolean("uppercase", true),
             lowercase = preferences.getBoolean("lowercase", true),
@@ -46,7 +44,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
         var text = textFile
         when (text) {
             "aille" -> text = "ail"
-            "ain" -> text = "in"
+            "ain" -> text = "inn"
             "au" -> text = "o"
             "am" -> text = "an"
             "ca" -> text = "ka"
@@ -61,14 +59,14 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             "eeee" -> text = "ai"
             "ei" -> text = "ai"
             "eille" -> text = "eil"
-            "ein" -> text = "in"
+            "ein" -> text = "inn"
             "em" -> text = "an"
             "en" -> text = "an"
             "er" -> text = "et"
             "est" -> text = "ai"
             "eu" -> text = "e"
             "euille" -> text = "euil"
-            "im" -> text = "in"
+            "im" -> text = "inn"
             "y" -> text = "i"
             "py" -> text = "pi"
             "by" -> text = "bi"
@@ -91,7 +89,7 @@ class AppViewModel(preferences: SharedPreferences) : ViewModel() {
             "que" -> text = "ke"
             "qui" -> text = "ki"
             "quo" -> text = "ko"
-            "un" -> text = "in"
+            "un" -> text = "inn"
             "ge" -> text = "je"
             "gi" -> text = "ji"
         }
