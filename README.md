@@ -1,9 +1,18 @@
 # Les Sons en Français
 
-Les Sons en Français is an Android app to learn sounds in French. I
+_Les Sons en Français_ is an Android app to learn sounds in French. I
 made  it for  my daughter  which is  currently learning  to read,  but
 struggles to remember  what sound is making such  and such combination
 of letters.
+
+## Download
+
+[<img alt="Get it on Google Play" height="100" src="https://github.com/richoux/les_sons_en_francais/wiki/images/GooglePlay.png">](https://play.google.com/store/apps/details?id=fr.richoux.lessonsenfrancais)
+[<img alt="Get it on F-Droid" height="100" src="https://github.com/richoux/les_sons_en_francais/wiki/images/IzzyOnDroid.png">](https://apt.izzysoft.de/fdroid/index/apk/fr.richoux.lessonsenfrancais)
+
+For F-Droid phones, _Les Sons en Français_ is currently only available on the F-Droid client through the [IzzyOnDroid repo](https://apt.izzysoft.de/fdroid/). You must first add this repository in the F-Droid client.
+
+You can also get the APK file of the [latest release](https://github.com/richoux/les_sons_en_francais/releases/latest).
 
 ## How to use it
 
