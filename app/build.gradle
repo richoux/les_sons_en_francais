@@ -14,13 +14,13 @@ android {
         }
     }
     namespace 'fr.richoux.lessonsenfrancais'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "fr.richoux.lessonsenfrancais"
         minSdk 26
-        targetSdk 33
-        versionCode 5
+        targetSdk 34
+        versionCode 6
         versionName "1.2.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
