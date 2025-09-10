@@ -27,16 +27,6 @@ import fr.richoux.lessonsenfrancais.ui.theme.BackgroundTwitter
 import fr.richoux.lessonsenfrancais.ui.theme.Black
 import fr.richoux.lessonsenfrancais.ui.theme.Mulish
 
-fun customShape() =  object : Shape {
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density
-    ): Outline {
-        return Outline.Rectangle(Rect(0f,0f,595f /* width */, 900f /* height */))
-    }
-}
-
 data class MenuItem(
     val id: String,
     val title: String,
@@ -100,9 +90,9 @@ fun DrawerMenuShape(
                 if(item.isSwitch) {
                     Button(
                         onClick = { item.onSwitchSwitched(!item.switchValue) },
-                        shape = customShape(),
                         modifier = Modifier
-                            .size(200.dp,50.dp)
+                            .fillMaxWidth()
+                            .height(50.dp)
                             .background(MaterialTheme.colors.primary)
                     ) {
                         val fontFamily: FontFamily = when(item.isTextCursive) {
@@ -160,8 +150,10 @@ fun DrawerMenuShape(
                                 {item.onClick()}
                             }
                         },
-                        shape = customShape(),
-                        modifier = Modifier.background(MaterialTheme.colors.primary).size(200.dp,50.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                            .background(MaterialTheme.colors.primary)
                     ) {
                         if( item.hasIcon ) {
                             item.icon?.let {
