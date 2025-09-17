@@ -119,7 +119,6 @@ fun CardScreen(
                 onAboutClicked = onAboutClicked
             )
         },
-        drawerShape = customShape(),
         bottomBar = {
             BottomBar()
             {

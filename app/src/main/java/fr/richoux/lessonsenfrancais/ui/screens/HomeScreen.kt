@@ -22,7 +22,6 @@ import fr.richoux.lessonsenfrancais.R
 import fr.richoux.lessonsenfrancais.ui.AppViewModel
 import fr.richoux.lessonsenfrancais.ui.DrawerMenu
 import fr.richoux.lessonsenfrancais.ui.TopBar
-import fr.richoux.lessonsenfrancais.ui.customShape
 import kotlinx.coroutines.launch
 
 // from https://stackoverflow.com/questions/68611320/remember-lazycolumn-scroll-position-jetpack-compose
@@ -95,7 +94,6 @@ fun HomeScreen(
                 onAboutClicked = onAboutClicked
             )
         },
-        drawerShape = customShape(),
         content = {
             LazyColumn(
                 state = rememberForeverLazyListState(key = "HomeScreen"),

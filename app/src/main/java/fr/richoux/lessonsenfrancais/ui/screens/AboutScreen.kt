@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import fr.richoux.lessonsenfrancais.ui.AppViewModel
 import fr.richoux.lessonsenfrancais.ui.DrawerMenu
 import fr.richoux.lessonsenfrancais.ui.TopBar
-import fr.richoux.lessonsenfrancais.ui.customShape
 import fr.richoux.lessonsenfrancais.ui.theme.BlueTwitter
 import kotlinx.coroutines.launch
 
@@ -84,7 +83,6 @@ fun AboutScreen(
                 onAboutClicked = onAboutClicked
             )
         },
-        drawerShape = customShape(),
         content = {
             LazyColumn(
                 modifier = Modifier
