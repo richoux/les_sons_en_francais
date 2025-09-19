@@ -197,9 +197,9 @@ fun CardScreen(
                 }
             }
         },
-        content = {
+        content = { padding ->
             Column(
-                modifier = modifier.fillMaxHeight(),
+                modifier = modifier.fillMaxHeight().padding(padding),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {

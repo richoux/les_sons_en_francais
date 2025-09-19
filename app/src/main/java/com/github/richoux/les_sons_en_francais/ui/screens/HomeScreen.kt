@@ -94,10 +94,10 @@ fun HomeScreen(
                 onAboutClicked = onAboutClicked
             )
         },
-        content = {
+        content = { padding ->
             LazyColumn(
                 state = rememberForeverLazyListState(key = "HomeScreen"),
-                modifier = Modifier.fillMaxHeight(),
+                modifier = Modifier.fillMaxHeight().padding(padding),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
