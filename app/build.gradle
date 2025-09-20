@@ -13,13 +13,13 @@ android {
             keyPassword 'gaebora3'
         }
     }
-    namespace 'fr.richoux.lessonsenfrancais'
-    compileSdk 34
+    namespace 'com.github.richoux.les_sons_en_francais'
+    compileSdk 35
 
     defaultConfig {
-        applicationId "fr.richoux.lessonsenfrancais"
+        applicationId "com.github.richoux.les_sons_en_francais"
         minSdk 26
-        targetSdk 34
+        targetSdk 35
         versionCode 7
         versionName "1.7"
 
