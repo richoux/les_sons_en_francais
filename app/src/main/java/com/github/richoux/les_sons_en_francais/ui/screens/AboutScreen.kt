@@ -1,6 +1,14 @@
 package com.github.richoux.les_sons_en_francais.ui.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.MaterialTheme
@@ -82,10 +90,11 @@ fun AboutScreen(
                 onAboutClicked = onAboutClicked
             )
         },
-        content = { padding ->
+        content = { innerPadding ->
             LazyColumn(
                 modifier = Modifier
-                    .padding(padding)
+                    .padding(innerPadding)
+                    .padding(WindowInsets.systemBars.asPaddingValues())
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.SpaceAround,
