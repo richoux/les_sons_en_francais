@@ -122,6 +122,6 @@ fun AboutScreen(
                     AnnotatedClickableText()
                 }
             }
-        }
-    )
+        })
+    }
 }
