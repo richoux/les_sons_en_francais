@@ -9,7 +9,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -103,109 +104,110 @@ fun CardScreen(
     val modifier = Modifier.fillMaxHeight()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopBar(
-                onMenuClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
-                    }
-                }
-            )
-        },
-        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
-        drawerContent = {
-            DrawerMenu(
-                appViewModel = appViewModel,
-                onHomeClicked = onHomeClicked,
-                onAboutClicked = onAboutClicked
-            )
-        },
-        bottomBar = {
-            BottomBar()
-            {
-                Button(
-                    onClick = {
-                        onPreviousClicked(context)
-                    },
-                    modifier = Modifier
-                        .weight(0.33f)
-                        .fillMaxHeight()
-                        .padding(10.dp),
-                    contentPadding = PaddingValues(5.dp),
-                    border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-                    colors = ButtonDefaults.textButtonColors(
-                        backgroundColor = MaterialTheme.colors.background,
-                        contentColor = MaterialTheme.colors.secondary
-                    )
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_arrow_left),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(128.dp)
-                            .background(MaterialTheme.colors.background),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
-                    )
-                }
-                Button(
-                    onClick = {
-                        onRandomClicked(context)
-                    },
-                    modifier = Modifier
-                        .weight(0.33f)
-                        .fillMaxHeight()
-                        .padding(10.dp),
-                    shape = CircleShape,
-                    contentPadding = PaddingValues(5.dp),
-                    border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-                    colors = ButtonDefaults.textButtonColors(
-                        backgroundColor = MaterialTheme.colors.background,
-                        contentColor = MaterialTheme.colors.secondary
-                    )
-                ) {
-                    Image(
-                        painter = painterResource(R.drawable.random),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(64.dp)
-                            .background(MaterialTheme.colors.background),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
-                    )
-                }
-                Button(
-                    onClick = {
-                        onNextClicked(context)
-                    },
-                    modifier = Modifier
-                        .weight(0.33f)
-                        .fillMaxHeight()
-                        .padding(10.dp),
-                    contentPadding = PaddingValues(5.dp),
-                    border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
-                    colors = ButtonDefaults.textButtonColors(
-                        backgroundColor = MaterialTheme.colors.background,
-                        contentColor = MaterialTheme.colors.secondary
-                    )
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_arrow_right),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(128.dp)
-                            .background(MaterialTheme.colors.background),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
-                    )
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopBar(
+            modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues()),
+            onMenuClick = {
+                scope.launch {
+                    scaffoldState.drawerState.open()
                 }
             }
-        },
-        content = { innerPadding ->
-            Column(
-                modifier = modifier.fillMaxHeight().padding(innerPadding).padding(WindowInsets.systemBars.asPaddingValues()),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
+        )
+        Scaffold(
+            scaffoldState = scaffoldState,
+            drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+            drawerContent = {
+                DrawerMenu(
+                    appViewModel = appViewModel,
+                    onHomeClicked = onHomeClicked,
+                    onAboutClicked = onAboutClicked
+                )
+            },
+            bottomBar = {
+                BottomBar()
+                {
+                    Button(
+                        onClick = {
+                            onPreviousClicked(context)
+                        },
+                        modifier = Modifier
+                            .weight(0.33f)
+                            .fillMaxHeight()
+                            .padding(10.dp),
+                        contentPadding = PaddingValues(5.dp),
+                        border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = MaterialTheme.colors.background,
+                            contentColor = MaterialTheme.colors.secondary
+                        )
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_arrow_left),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(128.dp)
+                                .background(MaterialTheme.colors.background),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            onRandomClicked(context)
+                        },
+                        modifier = Modifier
+                            .weight(0.33f)
+                            .fillMaxHeight()
+                            .padding(10.dp),
+                        shape = CircleShape,
+                        contentPadding = PaddingValues(5.dp),
+                        border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = MaterialTheme.colors.background,
+                            contentColor = MaterialTheme.colors.secondary
+                        )
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.random),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(64.dp)
+                                .background(MaterialTheme.colors.background),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            onNextClicked(context)
+                        },
+                        modifier = Modifier
+                            .weight(0.33f)
+                            .fillMaxHeight()
+                            .padding(10.dp),
+                        contentPadding = PaddingValues(5.dp),
+                        border = BorderStroke(5.dp, MaterialTheme.colors.secondary),
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = MaterialTheme.colors.background,
+                            contentColor = MaterialTheme.colors.secondary
+                        )
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_arrow_right),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(128.dp)
+                                .background(MaterialTheme.colors.background),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
+                        )
+                    }
+                }
+            },
+            content = { innerPadding ->
+                Column(
+                    modifier = modifier.fillMaxHeight().padding(innerPadding).padding(WindowInsets.navigationBars.asPaddingValues()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
+                ) {
                 //////////////////
                 // Display card //
                 //////////////////

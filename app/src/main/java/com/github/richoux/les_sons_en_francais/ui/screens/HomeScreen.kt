@@ -5,7 +5,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.*
@@ -78,32 +79,32 @@ fun HomeScreen(
     val scope = rememberCoroutineScope()
     val allSounds = context.getResources().getStringArray(R.array.sounds)
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopBar(
-                onMenuClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
-                    }
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopBar(
+            modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues()),
+            onMenuClick = {
+                scope.launch {
+                    scaffoldState.drawerState.open()
                 }
-            )
-        },
-        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
-        drawerContent = {
-            DrawerMenu(
-                appViewModel = appViewModel,
-                onHomeClicked = onHomeClicked,
-                onAboutClicked = onAboutClicked
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(
-                state = rememberForeverLazyListState(key = "HomeScreen"),
-                modifier = Modifier.fillMaxHeight().padding(innerPadding).padding(WindowInsets.systemBars.asPaddingValues()),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
+            }
+        )
+        Scaffold(
+            scaffoldState = scaffoldState,
+            drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+            drawerContent = {
+                DrawerMenu(
+                    appViewModel = appViewModel,
+                    onHomeClicked = onHomeClicked,
+                    onAboutClicked = onAboutClicked
+                )
+            },
+            content = { innerPadding ->
+                LazyColumn(
+                    state = rememberForeverLazyListState(key = "HomeScreen"),
+                    modifier = Modifier.fillMaxHeight().padding(innerPadding).padding(WindowInsets.navigationBars.asPaddingValues()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
                 items(allSounds.size) {
                         sound ->
                     var text = allSounds[sound]

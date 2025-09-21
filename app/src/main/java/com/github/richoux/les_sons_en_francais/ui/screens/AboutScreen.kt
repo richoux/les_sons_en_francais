@@ -3,7 +3,8 @@ package com.github.richoux.les_sons_en_francais.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.MaterialTheme
@@ -66,34 +67,34 @@ fun AboutScreen(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopBar(
-                onMenuClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
-                    }
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopBar(
+            modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues()),
+            onMenuClick = {
+                scope.launch {
+                    scaffoldState.drawerState.open()
                 }
-            )
-        },
-        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
-        drawerContent = {
-            DrawerMenu(
-                appViewModel = appViewModel,
-                onHomeClicked = onHomeClicked,
-                onAboutClicked = onAboutClicked
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .padding(WindowInsets.systemBars.asPaddingValues())
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.SpaceAround,
-            ){
+            }
+        )
+        Scaffold(
+            scaffoldState = scaffoldState,
+            drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+            drawerContent = {
+                DrawerMenu(
+                    appViewModel = appViewModel,
+                    onHomeClicked = onHomeClicked,
+                    onAboutClicked = onAboutClicked
+                )
+            },
+            content = { innerPadding ->
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .padding(WindowInsets.navigationBars.asPaddingValues())
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.SpaceAround,
+                ){
                 item {
                     Text(
                         color = MaterialTheme.colors.secondary,
