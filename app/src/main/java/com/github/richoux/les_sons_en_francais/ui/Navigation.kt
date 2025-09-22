@@ -3,6 +3,7 @@ package com.github.richoux.les_sons_en_francais.ui
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,9 +27,10 @@ fun Navigation(
     val uiState by appViewModel.uiState.collectAsState()
     val options by appViewModel.options.collectAsState()
 
-    NavHost(navController = navController, startDestination = appViewModel.getLastRoute()) {
-        composable(route = Screens.HomeScreen.route) {
-            LesSonsEnFrançaisTheme(
+    Box {
+        NavHost(navController = navController, startDestination = appViewModel.getLastRoute()) {
+            composable(route = Screens.HomeScreen.route) {
+                LesSonsEnFrançaisTheme(
                 darkTheme = options.darkMode
             ) {
                 Log.d(TAG, "Nav.HomeScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}")
@@ -96,5 +98,6 @@ fun Navigation(
                 )
             }
         }
+        StatusBarScrim()
     }
 }
