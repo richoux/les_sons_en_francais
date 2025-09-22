@@ -35,7 +35,7 @@ fun LesSonsEnFrançaisTheme(
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(
-            color = BackgroundTwitter,
+            color = BlackGrey,
             darkIcons = false
         )
     }
