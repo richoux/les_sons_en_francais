@@ -31,71 +31,72 @@ fun Navigation(
         NavHost(navController = navController, startDestination = appViewModel.getLastRoute()) {
             composable(route = Screens.HomeScreen.route) {
                 LesSonsEnFrançaisTheme(
-                darkTheme = options.darkMode
-            ) {
-                Log.d(TAG, "Nav.HomeScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}")
-                HomeScreen(
-                    appViewModel = appViewModel,
-                    uppercase = options.uppercase,
-                    lowercase = options.lowercase,
-                    cursive = options.cursive,
-                    onSelected = { it: Context, index: Int ->
-                        appViewModel.updateCard(it, index)
-                        navController.navigate(Screens.CardScreen.route)
-                    },
-                    onHomeClicked = {
-                        navController.navigate(Screens.HomeScreen.route)
-                    },
-                    onAboutClicked = {
-                        navController.navigate(Screens.AboutScreen.route)
-                    }
-                )
+                    darkTheme = options.darkMode
+                ) {
+                    Log.d(TAG, "Nav.HomeScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}")
+                    HomeScreen(
+                        appViewModel = appViewModel,
+                        uppercase = options.uppercase,
+                        lowercase = options.lowercase,
+                        cursive = options.cursive,
+                        onSelected = { it: Context, index: Int ->
+                            appViewModel.updateCard(it, index)
+                            navController.navigate(Screens.CardScreen.route)
+                        },
+                        onHomeClicked = {
+                            navController.navigate(Screens.HomeScreen.route)
+                        },
+                        onAboutClicked = {
+                            navController.navigate(Screens.AboutScreen.route)
+                        }
+                    )
+                }
             }
-        }
-        composable(route = Screens.AboutScreen.route) {
-            LesSonsEnFrançaisTheme(
-                darkTheme = options.darkMode
-            ) {
-                Log.d(TAG, "Nav.AboutScreen")
-                AboutScreen(
-                    appViewModel = appViewModel,
-                    onHomeClicked = {
-                        navController.navigate(Screens.HomeScreen.route)
-                    },
-                    onAboutClicked = {
-                        navController.navigate(Screens.AboutScreen.route)
-                    }
-                )
+            composable(route = Screens.AboutScreen.route) {
+                LesSonsEnFrançaisTheme(
+                    darkTheme = options.darkMode
+                ) {
+                    Log.d(TAG, "Nav.AboutScreen")
+                    AboutScreen(
+                        appViewModel = appViewModel,
+                        onHomeClicked = {
+                            navController.navigate(Screens.HomeScreen.route)
+                        },
+                        onAboutClicked = {
+                            navController.navigate(Screens.AboutScreen.route)
+                        }
+                    )
+                }
             }
-        }
-        composable(route = Screens.CardScreen.route) {
-            LesSonsEnFrançaisTheme(
-                darkTheme = options.darkMode
-            ) {
-                Log.d(TAG,"Nav.CardScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}" )
-                CardScreen(
-                    appViewModel = appViewModel,
-                    soundText = uiState.soundText,
-                    soundID = uiState.soundID,
-                    uppercase = options.uppercase,
-                    lowercase = options.lowercase,
-                    cursive = options.cursive,
-                    onPreviousClicked = {
-                        appViewModel.previousCard(it)
-                    },
-                    onNextClicked = {
-                        appViewModel.nextCard(it)
-                    },
-                    onRandomClicked = {
-                        appViewModel.randomCard(it)
-                    },
-                    onHomeClicked = {
-                        navController.navigate(Screens.HomeScreen.route)
-                    },
-                    onAboutClicked = {
-                        navController.navigate(Screens.AboutScreen.route)
-                    }
-                )
+            composable(route = Screens.CardScreen.route) {
+                LesSonsEnFrançaisTheme(
+                    darkTheme = options.darkMode
+                ) {
+                    Log.d(TAG,"Nav.CardScreen - index=${uiState.index}, soundText=${uiState.soundText}, soundID=${uiState.soundID}, startDate=${uiState.startDate}" )
+                    CardScreen(
+                        appViewModel = appViewModel,
+                        soundText = uiState.soundText,
+                        soundID = uiState.soundID,
+                        uppercase = options.uppercase,
+                        lowercase = options.lowercase,
+                        cursive = options.cursive,
+                        onPreviousClicked = {
+                            appViewModel.previousCard(it)
+                        },
+                        onNextClicked = {
+                            appViewModel.nextCard(it)
+                        },
+                        onRandomClicked = {
+                            appViewModel.randomCard(it)
+                        },
+                        onHomeClicked = {
+                            navController.navigate(Screens.HomeScreen.route)
+                        },
+                        onAboutClicked = {
+                            navController.navigate(Screens.AboutScreen.route)
+                        }
+                    )
+                }
             }
         }
         StatusBarScrim()
