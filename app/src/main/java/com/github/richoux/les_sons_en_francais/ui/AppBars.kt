@@ -38,9 +38,11 @@ data class MenuItem(
 
 @Composable
 fun TopBar (
+    modifier: Modifier = Modifier,
     onMenuClick: () -> Unit
 ) {
     TopAppBar(
+        modifier = modifier,
         title = {
             Text(
                 text = stringResource(id = R.string.app_name),
